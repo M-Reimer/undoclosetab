@@ -1,0 +1,11 @@
+{
+  "extensionName": {
+    "message": "Geschlossenen Tab wiederherstellen",
+    "description": "Name of the extension."
+  },
+
+  "extensionDescription": {
+    "message": "Stellt den zuletzt geschlossenen Tab wieder her.",
+    "description": "Description of the extension."
+  }
+}
