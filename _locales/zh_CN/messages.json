@@ -1,0 +1,11 @@
+{
+  "extensionName": {
+    "message": "找回已关闭的标签页",
+    "description": "Name of the extension."
+  },
+
+  "extensionDescription": {
+    "message": "重新打开已经关闭的标签页。",
+    "description": "Description of the extension."
+  }
+}
