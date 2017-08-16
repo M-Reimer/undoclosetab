@@ -46,11 +46,20 @@ async function ClosedTabListChanged() {
   const tabs = await GetLastClosedTabs();
   tabs.forEach((closedTab) => {
     let tab = closedTab.tab; // stripping "lastModified"
-    browser.contextMenus.create({
+    let menuProperty = {
       id: tab.sessionId,
       title: tab.title,
-      contexts: ["browser_action"]
-    });
+      contexts: ["browser_action"],
+    };
+
+    // menu icon support since Firefox 56 [bug 1321544]
+    // in Firefox 54, this will lead to an error: TypeError: item is undefined  ext-contextMenus.js:127:1 and the menu display stopped.
+    if (false && tab.favIconUrl) { // remove the false when "strict_min_version" to 56.0
+      menuProperty.icons = {
+          18: tab.favIconUrl
+      }
+    }
+    browser.contextMenus.create(menuProperty);
   })
 }
 
