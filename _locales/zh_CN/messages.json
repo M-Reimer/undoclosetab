@@ -12,5 +12,32 @@
   "more_entries_menu": {
     "message": "* 更多项",
     "description": "Last menu on Context menus of the browser action, as the top-level menu cannot exceed 6 items."
+  },
+
+  "menuitem_number_label": {
+    "message": "菜单中显示多少个已关闭的标签页:",
+    "description": "Closed tabs number on context menu items."
+  },
+  "numberText_title": {
+    "message": "显示多少个已关闭的标签页，范围 1 - $1",
+    "description": "tooltip on number input box.",
+    "placeholders": {
+      "maxResults": {
+        "content": "$1",
+        "example": "25"
+      }
+    }
+  },
+  "saveButton_label": {
+    "message": "保存",
+    "description": "Save button label."
+  },
+  "saveButton_saved_label": {
+    "message": "已保存!",
+    "description": "Save button label while the button clicked."
+  },
+  "saveButton_error_label": {
+    "message": "出错!",
+    "description": "Save button label while save error."
   }
 }

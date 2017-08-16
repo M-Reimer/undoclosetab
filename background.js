@@ -32,6 +32,19 @@ async function GetLastClosedTabs() {
   }
 }
 
+
+function getCurrentNumberOption() {
+  browser.storage.local.get("showNumber").then(options => {
+    let num = parseInt(options.showNumber);
+    if (num > 0)
+      return num;
+  }, error => {
+    //console.warn(error) // unset or error
+    return 6;
+  });
+}
+
+
 // Fired if the toolbar button is clicked.
 // Restores the last closed tab in list.
 async function ToolbarButtonClicked() {

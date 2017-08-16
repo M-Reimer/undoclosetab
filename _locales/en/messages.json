@@ -11,5 +11,32 @@
   "more_entries_menu": {
     "message": "* More entries",
     "description": "Last menu on Context menus of the browser action, as the top-level menu cannot exceed 6 items."
+  },
+
+  "menuitem_number_label": {
+    "message": "Number of shown on closed tabs menu:",
+    "description": "Closed tabs number on context menu items."
+  },
+  "numberText_title": {
+    "message": "Closed tabs number on context menu, range is 1 - $1",
+    "description": "tooltip on number input box.",
+    "placeholders": {
+      "maxResults": {
+        "content": "$1",
+        "example": "25"
+      }
+    }
+  },
+  "saveButton_label": {
+    "message": "Save",
+    "description": "Save button label."
+  },
+  "saveButton_saved_label": {
+    "message": "Saved!",
+    "description": "Save button label while the button clicked."
+  },
+  "saveButton_error_label": {
+    "message": "Error!",
+    "description": "Save button label while save error."
   }
 }
