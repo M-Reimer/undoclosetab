@@ -1,6 +1,7 @@
 /*
     Firefox addon "Undo Close Tab"
     Copyright (C) 2017  Manuel Reimer <manuel.reimer@gmx.de>
+    Copyright (C) 2017  YFdyh000 <yfdyh000@gmail.com>
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -16,50 +17,58 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-// Function to do all this "Promise" stuff required by the webextensions API.
+// menu icon support since Firefox 56 [bug 1321544]. In Firefox 54, this will lead to an error: TypeError: item is undefined  ext-contextMenus.js:127:1 and the menu display stopped.
+let browserSupportMenuIcon; // cache
+async function isBrowserSupportMenuIcon() {
+  if (typeof browserSupportMenuIcon === "undefined") {
+    const bInfo = await browser.runtime.getBrowserInfo();
+    browserSupportMenuIcon = bInfo.vendor === "Mozilla" && bInfo.version >= "56.0";
+  }
+  return browserSupportMenuIcon;
+}
+
+// Function to do all this "Promise" stuff required by the WebExtensions API.
 // Will finally call the supplied callback with a list of closed tabs.
-function GetLastClosedTabs(aCallback) {
-  browser.windows.getCurrent().then(
-    function(CurrentWindow) {
-      browser.sessions.getRecentlyClosed().then(
-        function(Sessions) {
-          var tablist = [];
-          for (var index = 0; index < Sessions.length; index++) {
-            var session = Sessions[index];
-            if (session.tab &&
-                session.tab.windowId == CurrentWindow.id)
-              tablist.push(session.tab);
-          }
-          aCallback(tablist);
-        }, onError
-      );
-    }, onError
-  );
+async function GetLastClosedTabs() {
+  try {
+    const currentWindow = await browser.windows.getCurrent();
+    const sessions = await browser.sessions.getRecentlyClosed();
+    let tabs = sessions.filter((s) => (s.tab && s.tab.windowId === currentWindow.id));
+    return tabs;
+  } catch (error) {
+    // Simple error handler. Just logs the error to console.
+    console.log(error);
+  }
 }
 
 // Fired if the toolbar button is clicked.
 // Restores the last closed tab in list.
-function ToolbarButtonClicked() {
-  GetLastClosedTabs(function(tablist) {
-    if (tablist.length > 0)
-      browser.sessions.restore(tablist[0].sessionId);
-  });
+async function ToolbarButtonClicked() {
+  const tabs = await GetLastClosedTabs();
+  if (tabs.length > 0)
+    await browser.sessions.restore(tabs[0].sessionId);
 }
 
 // Fired if the list of closed tabs has changed.
 // Updates the context menu entries with the list of last closed tabs.
-function ClosedTabListChanged() {
-  browser.contextMenus.removeAll();
-  GetLastClosedTabs(function(tablist) {
-    for (var index = 0; index < tablist.length; index++) {
-      var tab = tablist[index];
-      browser.contextMenus.create({
-        id: tab.sessionId,
-        title: tab.title,
-        contexts: ["browser_action"]
-      });
+async function ClosedTabListChanged() {
+  await browser.contextMenus.removeAll();
+  const tabs = await GetLastClosedTabs();
+  tabs.forEach((closedTab) => {
+    let tab = closedTab.tab; // stripping "lastModified"
+    let menuProperty = {
+      id: tab.sessionId,
+      title: tab.title,
+      contexts: ["browser_action"],
+    };
+
+    if (isBrowserSupportMenuIcon() && tab.favIconUrl) {
+      menuProperty.icons = {
+          18: tab.favIconUrl
+      }
     }
-  });
+    browser.contextMenus.create(menuProperty);
+  })
 }
 
 // Fired if one of our context menu entries is clicked.
@@ -67,12 +76,6 @@ function ClosedTabListChanged() {
 function ContextMenuClicked(aInfo) {
   browser.sessions.restore(aInfo.menuItemId);
 }
-
-// Simple error handler. Just logs the error to console.
-function onError(error) {
-  console.log(error);
-}
-
 
 // Register event listeners
 browser.browserAction.onClicked.addListener(ToolbarButtonClicked);
