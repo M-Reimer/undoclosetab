@@ -17,6 +17,16 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
+// menu icon support since Firefox 56 [bug 1321544]. In Firefox 54, this will lead to an error: TypeError: item is undefined  ext-contextMenus.js:127:1 and the menu display stopped.
+let browserSupportMenuIcon; // cache
+async function isBrowserSupportMenuIcon() {
+  if (typeof browserSupportMenuIcon === "undefined") {
+    const bInfo = await browser.runtime.getBrowserInfo();
+    browserSupportMenuIcon = bInfo.vendor === "Mozilla" && bInfo.version >= "56.0";
+  }
+  return browserSupportMenuIcon;
+}
+
 // Function to do all this "Promise" stuff required by the WebExtensions API.
 // Will finally call the supplied callback with a list of closed tabs.
 async function GetLastClosedTabs() {
@@ -52,9 +62,7 @@ async function ClosedTabListChanged() {
       contexts: ["browser_action"],
     };
 
-    // menu icon support since Firefox 56 [bug 1321544]
-    // in Firefox 54, this will lead to an error: TypeError: item is undefined  ext-contextMenus.js:127:1 and the menu display stopped.
-    if (false && tab.favIconUrl) { // remove the false when "strict_min_version" to 56.0
+    if (isBrowserSupportMenuIcon() && tab.favIconUrl) {
       menuProperty.icons = {
           18: tab.favIconUrl
       }
