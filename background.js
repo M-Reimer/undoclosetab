@@ -44,14 +44,28 @@ async function ToolbarButtonClicked() {
 async function ClosedTabListChanged() {
   await browser.contextMenus.removeAll();
   const tabs = await GetLastClosedTabs();
-  tabs.forEach((closedTab) => {
+  tabs.splice(0, 5).forEach((closedTab) => { // top-level menu cannot exceed 6 items.
     let tab = closedTab.tab; // stripping "lastModified"
     browser.contextMenus.create({
       id: tab.sessionId,
       title: tab.title,
       contexts: ["browser_action"]
     });
-  })
+  });
+  let moreMenu = browser.contextMenus.create({
+    id: "MoreClosedTabs",
+    title: "* More entries",
+    contexts: ["browser_action"]
+  });
+  tabs.forEach((closedTab) => {
+    let tab = closedTab.tab;
+    browser.contextMenus.create({
+      id: tab.sessionId,
+      title: tab.title,
+      parentId: moreMenu,
+      contexts: ["browser_action"]
+    });
+  });
 }
 
 // Fired if one of our context menu entries is clicked.
