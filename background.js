@@ -45,21 +45,26 @@ async function ToolbarButtonClicked() {
 async function ClosedTabListChanged() {
   await browser.contextMenus.removeAll();
   const tabs = await GetLastClosedTabs();
-  tabs.forEach((tab) => {
-    let menuProperty = {
+  tabs.splice(0, 5).forEach((tab) => { // top-level menu cannot exceed 6 items.
+    browser.contextMenus.create({
       id: tab.sessionId,
       title: tab.title,
-      contexts: ["browser_action"],
-    };
-
-    // menu icon support since Firefox 56 [bug 1321544]
-    if (MENU_ICONS_SUPPORTED && tab.favIconUrl) {
-      menuProperty.icons = {
-        18: tab.favIconUrl
-      }
-    }
-    browser.contextMenus.create(menuProperty);
-  })
+      contexts: ["browser_action"]
+    });
+  });
+  let moreMenu = browser.contextMenus.create({
+    id: "MoreClosedTabs",
+    title: "* More entries",
+    contexts: ["browser_action"]
+  });
+  tabs.forEach((tab) => {
+    browser.contextMenus.create({
+      id: tab.sessionId,
+      title: tab.title,
+      parentId: moreMenu,
+      contexts: ["browser_action"]
+    });
+  });
 }
 
 // Fired if one of our context menu entries is clicked.
