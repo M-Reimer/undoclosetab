@@ -3,9 +3,13 @@
     "message": "Undo Close Tab",
     "description": "Name of the extension."
   },
-
   "extensionDescription": {
     "message": "Reopens the last closed tab.",
     "description": "Description of the extension."
+  },
+
+  "more_entries_menu": {
+    "message": "* More entries",
+    "description": "Last menu on Context menus of the browser action, as the top-level menu cannot exceed 6 items."
   }
 }

@@ -54,7 +54,7 @@ async function ClosedTabListChanged() {
   });
   let moreMenu = browser.contextMenus.create({
     id: "MoreClosedTabs",
-    title: "* More entries",
+    title: browser.i18n.getMessage("more_entries_menu"),
     contexts: ["browser_action"]
   });
   tabs.forEach((closedTab) => {
