@@ -53,10 +53,9 @@ async function ClosedTabListChanged() {
     };
 
     // menu icon support since Firefox 56 [bug 1321544]
-    // in Firefox 54, this will lead to an error: TypeError: item is undefined  ext-contextMenus.js:127:1 and the menu display stopped.
-    if (false && tab.favIconUrl) { // remove the false when "strict_min_version" to 56.0
+    if (MENU_ICONS_SUPPORTED && tab.favIconUrl) {
       menuProperty.icons = {
-          18: tab.favIconUrl
+        18: tab.favIconUrl
       }
     }
     browser.contextMenus.create(menuProperty);
@@ -68,6 +67,16 @@ async function ClosedTabListChanged() {
 function ContextMenuClicked(aInfo) {
   browser.sessions.restore(aInfo.menuItemId);
 }
+
+
+// Check for "icons" support in context menus by adding a temporary entry.
+// In Firefox 55, this will lead to an error:
+// TypeError: item is undefined  ext-contextMenus.js:127:1
+var MENU_ICONS_SUPPORTED = false;
+try {
+  browser.contextMenus.create({title: 'test', icons: {18: 'icons/undoCloseTab.png'}});
+  MENU_ICONS_SUPPORTED = true;
+} catch(e) {}
 
 // Register event listeners
 browser.browserAction.onClicked.addListener(ToolbarButtonClicked);
