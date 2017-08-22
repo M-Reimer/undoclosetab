@@ -18,12 +18,13 @@
 */
 
 // Function to do all this "Promise" stuff required by the WebExtensions API.
-// Will finally call the supplied callback with a list of closed tabs.
+// Finally returns a Promise which will be resolved with a list of closed tabs.
 async function GetLastClosedTabs() {
   try {
     const currentWindow = await browser.windows.getCurrent();
     const sessions = await browser.sessions.getRecentlyClosed();
     let tabs = sessions.filter((s) => (s.tab && s.tab.windowId === currentWindow.id));
+    tabs.forEach((o, i, a) => {a[i] = a[i].tab});
     return tabs;
   } catch (error) {
     // Simple error handler. Just logs the error to console.
@@ -44,8 +45,7 @@ async function ToolbarButtonClicked() {
 async function ClosedTabListChanged() {
   await browser.contextMenus.removeAll();
   const tabs = await GetLastClosedTabs();
-  tabs.forEach((closedTab) => {
-    let tab = closedTab.tab; // stripping "lastModified"
+  tabs.forEach((tab) => {
     browser.contextMenus.create({
       id: tab.sessionId,
       title: tab.title,
