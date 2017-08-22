@@ -3,12 +3,13 @@
 # Makefile for Undo Close Tab
 #
 
-.PHONY: xpi
+FILES = manifest.json \
+        background.js \
+        $(wildcard _locales/*/messages.json) \
+        $(wildcard icons/*.png)
 
-xpi: clean
-	zip -r9 undoclosetab-trunk.xpi manifest.json \
-                               _locales \
-                               icons \
-                               background.js
+undoclosetab-trunk.xpi: $(FILES)
+	@zip -9 - $^ > $@
+
 clean:
-	rm -f vdrportalmobile-trunk.xpi
+	rm -f undoclosetab-trunk.xpi
