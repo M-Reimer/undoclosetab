@@ -40,30 +40,49 @@ async function ToolbarButtonClicked() {
     await browser.sessions.restore(tabs[0].sessionId);
 }
 
+// Helper function. Creates one context menu entry.
+function CreateContextMenuItem(aId, aTitle, aIconUrl, aParent) {
+  let menuProperty = {
+    id: aId,
+    title: aTitle,
+    contexts: ["browser_action"]
+  };
+
+  if (aParent)
+    menuProperty.parentId = aParent;
+
+  if (MENU_ICONS_SUPPORTED && aIconUrl)
+    menuProperty.icons = { 18: aIconUrl };
+
+  return browser.contextMenus.create(menuProperty);
+}
+
 // Fired if the list of closed tabs has changed.
 // Updates the context menu entries with the list of last closed tabs.
 async function ClosedTabListChanged() {
   await browser.contextMenus.removeAll();
   const tabs = await GetLastClosedTabs();
+
   tabs.splice(0, 5).forEach((tab) => { // top-level menu cannot exceed 6 items.
-    browser.contextMenus.create({
-      id: tab.sessionId,
-      title: tab.title,
-      contexts: ["browser_action"]
-    });
+    CreateContextMenuItem(
+      tab.sessionId,
+      tab.title,
+      tab.favIconUrl
+    );
   });
-  let moreMenu = browser.contextMenus.create({
-    id: "MoreClosedTabs",
-    title: browser.i18n.getMessage("more_entries_menu"),
-    contexts: ["browser_action"]
-  });
+
+  let moreMenu = CreateContextMenuItem(
+    "MoreClosedTabs",
+    browser.i18n.getMessage("more_entries_menu"),
+  );
+
   tabs.forEach((tab) => {
-    browser.contextMenus.create({
-      id: tab.sessionId,
-      title: tab.title,
-      parentId: moreMenu,
-      contexts: ["browser_action"]
-    });
+    CreateContextMenuItem(
+      tab.sessionId,
+      tab.title,
+      tab.favIconUrl,
+      moreMenu
+    );
   });
 }
 
