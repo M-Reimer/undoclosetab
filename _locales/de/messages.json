@@ -7,5 +7,10 @@
   "extensionDescription": {
     "message": "Stellt den zuletzt geschlossenen Tab wieder her.",
     "description": "Description of the extension."
+  },
+
+  "more_entries_menu": {
+    "message": "* Mehr Einträge",
+    "description": "Last menu on Context menus of the browser action, as the top-level menu cannot exceed 6 items."
   }
 }
