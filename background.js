@@ -74,7 +74,7 @@ function ContextMenuClicked(aInfo) {
 // TypeError: item is undefined  ext-contextMenus.js:127:1
 var MENU_ICONS_SUPPORTED = false;
 try {
-  browser.contextMenus.create({title: 'test', icons: {18: 'icons/undoCloseTab.png'}});
+  browser.contextMenus.create({title: "test", icons: {18: "icons/undoCloseTab.png"}});
   MENU_ICONS_SUPPORTED = true;
 } catch(e) {}
 
