@@ -7,5 +7,10 @@
   "extensionDescription": {
     "message": "重新打开已经关闭的标签页。",
     "description": "Description of the extension."
+  },
+
+  "more_entries_menu": {
+    "message": "* 更多项",
+    "description": "Last menu on Context menus of the browser action, as the top-level menu cannot exceed 6 items."
   }
 }
