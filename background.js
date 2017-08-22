@@ -62,28 +62,44 @@ function CreateContextMenuItem(aId, aTitle, aIconUrl, aParent) {
 async function ClosedTabListChanged() {
   await browser.contextMenus.removeAll();
   const tabs = await GetLastClosedTabs();
+  var max_allowed = browser.contextMenus.ACTION_MENU_TOP_LEVEL_LIMIT;
 
-  tabs.splice(0, 5).forEach((tab) => { // top-level menu cannot exceed 6 items.
-    CreateContextMenuItem(
-      tab.sessionId,
-      tab.title,
-      tab.favIconUrl
+  // If closed tabs count is less or equal maximum allowed menu entries, then
+  // no "More items" menu is needed.
+  if (tabs.length <= max_allowed) {
+    tabs.forEach((tab) => {
+      CreateContextMenuItem(
+        tab.sessionId,
+        tab.title,
+        tab.favIconUrl
+      );
+    });
+  }
+  // If there are too much items, place "maximum - 1" items to the top level
+  // and place the rest of them into a submenu.
+  else {
+    tabs.splice(0, max_allowed - 1).forEach((tab) => {
+      CreateContextMenuItem(
+        tab.sessionId,
+        tab.title,
+        tab.favIconUrl
+      );
+    });
+
+    let moreMenu = CreateContextMenuItem(
+      "MoreClosedTabs",
+      browser.i18n.getMessage("more_entries_menu"),
     );
-  });
 
-  let moreMenu = CreateContextMenuItem(
-    "MoreClosedTabs",
-    browser.i18n.getMessage("more_entries_menu"),
-  );
-
-  tabs.forEach((tab) => {
-    CreateContextMenuItem(
-      tab.sessionId,
-      tab.title,
-      tab.favIconUrl,
-      moreMenu
-    );
-  });
+    tabs.forEach((tab) => {
+      CreateContextMenuItem(
+        tab.sessionId,
+        tab.title,
+        tab.favIconUrl,
+        moreMenu
+      );
+    });
+  }
 }
 
 // Fired if one of our context menu entries is clicked.
