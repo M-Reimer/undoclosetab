@@ -19,10 +19,12 @@
 
 // Function to do all this "Promise" stuff required by the WebExtensions API.
 // Finally returns a Promise which will be resolved with a list of closed tabs.
-async function GetLastClosedTabs() {
+async function GetLastClosedTabs(aMaxResults) {
   try {
     const currentWindow = await browser.windows.getCurrent();
-    const sessions = await browser.sessions.getRecentlyClosed();
+    const sessions = await browser.sessions.getRecentlyClosed({
+      maxResults: aMaxResults
+    });
     let tabs = sessions.filter((s) => (s.tab && s.tab.windowId === currentWindow.id));
     tabs.forEach((o, i, a) => {a[i] = a[i].tab});
     return tabs;
@@ -30,18 +32,6 @@ async function GetLastClosedTabs() {
     // Simple error handler. Just logs the error to console.
     console.log(error);
   }
-}
-
-
-function getCurrentNumberOption() {
-  browser.storage.local.get("showNumber").then(options => {
-    let num = parseInt(options.showNumber);
-    if (num > 0)
-      return num;
-  }, error => {
-    //console.warn(error) // unset or error
-    return 6;
-  });
 }
 
 
@@ -74,7 +64,8 @@ function CreateContextMenuItem(aId, aTitle, aIconUrl, aParent) {
 // Updates the context menu entries with the list of last closed tabs.
 async function ClosedTabListChanged() {
   await browser.contextMenus.removeAll();
-  const tabs = await GetLastClosedTabs();
+  const showNumber = (await browser.storage.local.get("showNumber")).showNumber || browser.sessions.MAX_SESSION_RESULTS;
+  const tabs = await GetLastClosedTabs(showNumber);
   var max_allowed = browser.contextMenus.ACTION_MENU_TOP_LEVEL_LIMIT;
 
   // If closed tabs count is less or equal maximum allowed menu entries, then

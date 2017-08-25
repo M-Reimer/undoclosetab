@@ -12,5 +12,24 @@
   "more_entries_menu": {
     "message": "* Mehr Einträge",
     "description": "Last menu on Context menus of the browser action, as the top-level menu cannot exceed 6 items."
+  },
+
+  "general_headline_label": {
+    "message": "General",
+    "description": "Headline for general config options in options page"
+  },
+  "menuitem_number_label": {
+    "message": "Anzahl von Einträgen in Kontextmenü:",
+    "description": "Closed tabs number on context menu items."
+  },
+  "numberText_title": {
+    "message": "Anzahl von Einträgen in Kontextmenü. Bereich ist 1 - $1",
+    "description": "tooltip on number input box.",
+    "placeholders": {
+      "maxResults": {
+        "content": "$1",
+        "example": "25"
+      }
+    }
   }
 }

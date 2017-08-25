@@ -27,17 +27,5 @@
         "example": "25"
       }
     }
-  },
-  "saveButton_label": {
-    "message": "保存",
-    "description": "Save button label."
-  },
-  "saveButton_saved_label": {
-    "message": "已保存!",
-    "description": "Save button label while the button clicked."
-  },
-  "saveButton_error_label": {
-    "message": "出错!",
-    "description": "Save button label while save error."
   }
 }

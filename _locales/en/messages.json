@@ -13,6 +13,10 @@
     "description": "Last menu on Context menus of the browser action, as the top-level menu cannot exceed 6 items."
   },
 
+  "general_headline_label": {
+    "message": "General",
+    "description": "Headline for general config options in options page"
+  },
   "menuitem_number_label": {
     "message": "Number of shown on closed tabs menu:",
     "description": "Closed tabs number on context menu items."
@@ -26,17 +30,5 @@
         "example": "25"
       }
     }
-  },
-  "saveButton_label": {
-    "message": "Save",
-    "description": "Save button label."
-  },
-  "saveButton_saved_label": {
-    "message": "Saved!",
-    "description": "Save button label while the button clicked."
-  },
-  "saveButton_error_label": {
-    "message": "Error!",
-    "description": "Save button label while save error."
   }
 }
