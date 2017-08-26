@@ -44,11 +44,11 @@ async function ToolbarButtonClicked() {
 }
 
 // Helper function. Creates one context menu entry.
-function CreateContextMenuItem(aId, aTitle, aIconUrl, aParent) {
+function CreateContextMenuItem(aId, aTitle, aIconUrl, aContexts, aParent) {
   let menuProperty = {
     id: aId,
     title: aTitle,
-    contexts: ["browser_action"]
+    contexts: aContexts
   };
 
   if (aParent)
@@ -64,18 +64,49 @@ function CreateContextMenuItem(aId, aTitle, aIconUrl, aParent) {
 // Updates the context menu entries with the list of last closed tabs.
 async function ClosedTabListChanged() {
   await browser.contextMenus.removeAll();
-  const showNumber = (await browser.storage.local.get("showNumber")).showNumber || browser.sessions.MAX_SESSION_RESULTS;
+  const prefs = await(browser.storage.local.get());
+  const showNumber = prefs.showNumber || browser.sessions.MAX_SESSION_RESULTS;
+  const showTabMenu = prefs.showTabMenu || false;
+  const showPageMenu = prefs.showPageMenu || false;
   const tabs = await GetLastClosedTabs(showNumber);
-  var max_allowed = browser.contextMenus.ACTION_MENU_TOP_LEVEL_LIMIT;
+  let max_allowed = browser.contextMenus.ACTION_MENU_TOP_LEVEL_LIMIT;
+
+  // This block is for creating the "page" or "tab" context menus.
+  // They are only drawn if at least one tab can be restored.
+  if ((showTabMenu || showPageMenu) && tabs.length) {
+    let contexts = [];
+    if (showTabMenu)
+      contexts.push("tab");
+    if (showPageMenu)
+      contexts.push("page");
+
+    let rootmenu = CreateContextMenuItem(
+      "RootMenu",
+      browser.i18n.getMessage("extensionName"),
+      false,
+      contexts
+    );
+
+    tabs.forEach((tab) => {
+      CreateContextMenuItem(
+        "PM:" + tab.sessionId,
+        tab.title,
+        tab.favIconUrl,
+        contexts,
+        rootmenu
+      );
+    });
+  }
 
   // If closed tabs count is less or equal maximum allowed menu entries, then
   // no "More items" menu is needed.
   if (tabs.length <= max_allowed) {
     tabs.forEach((tab) => {
       CreateContextMenuItem(
-        tab.sessionId,
+        "BA:" + tab.sessionId,
         tab.title,
-        tab.favIconUrl
+        tab.favIconUrl,
+        ["browser_action"]
       );
     });
   }
@@ -84,22 +115,26 @@ async function ClosedTabListChanged() {
   else {
     tabs.splice(0, max_allowed - 1).forEach((tab) => {
       CreateContextMenuItem(
-        tab.sessionId,
+        "BA:" + tab.sessionId,
         tab.title,
-        tab.favIconUrl
+        tab.favIconUrl,
+        ["browser_action"]
       );
     });
 
     let moreMenu = CreateContextMenuItem(
       "MoreClosedTabs",
       browser.i18n.getMessage("more_entries_menu"),
+      false,
+      ["browser_action"]
     );
 
     tabs.forEach((tab) => {
       CreateContextMenuItem(
-        tab.sessionId,
+        "BA:" + tab.sessionId,
         tab.title,
         tab.favIconUrl,
+        ["browser_action"],
         moreMenu
       );
     });
@@ -109,7 +144,8 @@ async function ClosedTabListChanged() {
 // Fired if one of our context menu entries is clicked.
 // Restores the tab, referenced by this context menu entry.
 function ContextMenuClicked(aInfo) {
-  browser.sessions.restore(aInfo.menuItemId);
+  let sessionid = aInfo.menuItemId.substring(aInfo.menuItemId.indexOf(":") + 1);
+  browser.sessions.restore(sessionid);
 }
 
 

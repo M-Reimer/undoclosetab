@@ -31,5 +31,18 @@
         "example": "25"
       }
     }
+  },
+
+  "menus_headline_label": {
+    "message": "Zusätzliche Menüs",
+    "description": "Headline for additional menu checkboxes in options page"
+  },
+  "menu_tab_label": {
+    "message": "Untermenü im Kontextmenü der Tab-Leiste",
+    "description": "Label on checkbox to enable submenu in tab bar context menu"
+  },
+  "menu_page_label": {
+    "message": "Untermenü im Kontextmenü der Seite",
+    "description": "Label on checkbox to enable submenu in page context menu"
   }
 }
