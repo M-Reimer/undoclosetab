@@ -5,6 +5,8 @@
 
 FILES = manifest.json \
         background.js \
+        options.html \
+        options.js \
         $(wildcard _locales/*/messages.json) \
         $(wildcard icons/*.png)
 
