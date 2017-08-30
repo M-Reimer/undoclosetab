@@ -22,10 +22,10 @@
 async function GetLastClosedTabs(aMaxResults, aOnlyCurrent) {
   try {
     const currentWindow = await browser.windows.getCurrent();
-    const sessions = await browser.sessions.getRecentlyClosed({
-      maxResults: aMaxResults || browser.sessions.MAX_SESSION_RESULTS
-    });
+    const sessions = await browser.sessions.getRecentlyClosed();
     let tabs = sessions.filter((s) => (s.tab && (!aOnlyCurrent || s.tab.windowId === currentWindow.id)));
+    if (aMaxResults && tabs.length > aMaxResults)
+      tabs = tabs.splice(0, aMaxResults);
     tabs.forEach((o, i, a) => {a[i] = a[i].tab});
     return tabs;
   } catch (error) {
