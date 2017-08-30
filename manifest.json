@@ -13,8 +13,9 @@
   },
 
   "icons": {
-    "18": "icons/undoCloseTab.png",
-    "34": "icons/undoCloseTab@2x.png"
+    "24": "icons/undoclosetab.svg",
+    "32": "icons/undoclosetab.svg",
+    "50": "icons/undoclosetab.svg"
   },
 
   "background": {
@@ -23,7 +24,7 @@
 
   "browser_action": {
     "browser_style": true,
-    "default_icon": "icons/undoCloseTab.png"
+    "default_icon": "icons/undoclosetab.svg"
   },
 
   "options_ui": {

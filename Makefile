@@ -8,7 +8,7 @@ FILES = manifest.json \
         options.html \
         options.js \
         $(wildcard _locales/*/messages.json) \
-        $(wildcard icons/*.png)
+        $(wildcard icons/*.svg)
 
 undoclosetab-trunk.xpi: $(FILES)
 	@zip -9 - $^ > $@
