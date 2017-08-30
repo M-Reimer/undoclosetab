@@ -10,7 +10,7 @@
   },
 
   "more_entries_menu": {
-    "message": "* Mehr Einträge",
+    "message": "Mehr Einträge",
     "description": "Last menu on Context menus of the browser action, as the top-level menu cannot exceed 6 items."
   },
 

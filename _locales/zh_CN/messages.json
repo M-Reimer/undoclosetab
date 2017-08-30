@@ -10,7 +10,7 @@
   },
 
   "more_entries_menu": {
-    "message": "* 更多项",
+    "message": "更多项",
     "description": "Last menu on Context menus of the browser action, as the top-level menu cannot exceed 6 items."
   },
 

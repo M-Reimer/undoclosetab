@@ -123,10 +123,11 @@ async function ClosedTabListChanged() {
       );
     });
 
+    const prefix = MENU_ICONS_SUPPORTED ? "" : "* ";
     let moreMenu = CreateContextMenuItem(
       "MoreClosedTabs",
-      browser.i18n.getMessage("more_entries_menu"),
-      false,
+      prefix + browser.i18n.getMessage("more_entries_menu"),
+      "icons/folder.svg",
       ["browser_action"]
     );
 
