@@ -13,12 +13,12 @@
     "description": "Last menu on Context menus of the browser action, as the top-level menu cannot exceed 6 items."
   },
 
-  "general_headline_label": {
-    "message": "General",
-    "description": "Headline for general config options in options page"
+  "contextmenus_headline_label": {
+    "message": "Context menus",
+    "description": "Headline for context menu options in options page"
   },
   "menuitem_number_label": {
-    "message": "Number of shown on closed tabs menu:",
+    "message": "Number of items shown on closed tabs menu:",
     "description": "Closed tabs number on context menu items."
   },
   "numberText_title": {
@@ -32,6 +32,10 @@
     }
   },
 
+  "onlycurrent_label": {
+    "message": "Only list tabs that were closed in the current window",
+    "description": "Label on checkbox for filtering menu items to current window"
+  },
   "menus_headline_label": {
     "message": "Additional Menus",
     "description": "Headline for additional menu checkboxes in options page"

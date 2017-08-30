@@ -5,15 +5,19 @@
   </head>
   <body>
     <form>
-      <h1 id="general_headline">General</h1>
-      <label for="number" id="number_label">Number of shown on closed tabs menu:</label>
+      <h1 id="contextmenus_headline">Context menus</h1>
+      <label for="number_inputbox" id="number_label">Number of shown on closed tabs menu:</label>
       <input type="number" id="number_inputbox" min="1" style="width: 6em">
-      <h1 id="menus_headline">Additional Menus</h1>
+      <br/>
+      <input type="checkbox" id="onlycurrent_checkbox"/>
+      <label for="onlycurrent_checkbox" id="onlycurrent_label">Only list tabs that were closed in the current window</label>
+
+      <h2 id="menus_headline">Additional menus</h2>
       <input type="checkbox" id="menu_tab_checkbox"/>
-      <label for="menu_tab" id="menu_tab_label">Submenu in tab bar context menu</label>
+      <label for="menu_tab_checkbox" id="menu_tab_label">Submenu in tab bar context menu</label>
       <br/>
       <input type="checkbox" id="menu_page_checkbox"/>
-      <label for="menu_page" id="menu_page_label">Submenu in page context menu</label>
+      <label for="menu_page_checkbox" id="menu_page_label">Submenu in page context menu</label>
     </form>
     <script src="options.js"></script>
   </body>

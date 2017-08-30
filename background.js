@@ -19,13 +19,13 @@
 
 // Function to do all this "Promise" stuff required by the WebExtensions API.
 // Finally returns a Promise which will be resolved with a list of closed tabs.
-async function GetLastClosedTabs(aMaxResults) {
+async function GetLastClosedTabs(aMaxResults, aOnlyCurrent) {
   try {
     const currentWindow = await browser.windows.getCurrent();
     const sessions = await browser.sessions.getRecentlyClosed({
-      maxResults: aMaxResults
+      maxResults: aMaxResults || browser.sessions.MAX_SESSION_RESULTS
     });
-    let tabs = sessions.filter((s) => (s.tab && s.tab.windowId === currentWindow.id));
+    let tabs = sessions.filter((s) => (s.tab && (!aOnlyCurrent || s.tab.windowId === currentWindow.id)));
     tabs.forEach((o, i, a) => {a[i] = a[i].tab});
     return tabs;
   } catch (error) {
@@ -38,7 +38,7 @@ async function GetLastClosedTabs(aMaxResults) {
 // Fired if the toolbar button is clicked.
 // Restores the last closed tab in list.
 async function ToolbarButtonClicked() {
-  const tabs = await GetLastClosedTabs();
+  const tabs = await GetLastClosedTabs(false, true);
   if (tabs.length > 0)
     await browser.sessions.restore(tabs[0].sessionId);
 }
@@ -68,8 +68,9 @@ async function ClosedTabListChanged() {
   const showNumber = prefs.showNumber || browser.sessions.MAX_SESSION_RESULTS;
   const showTabMenu = prefs.showTabMenu || false;
   const showPageMenu = prefs.showPageMenu || false;
-  const tabs = await GetLastClosedTabs(showNumber);
-  let max_allowed = browser.contextMenus.ACTION_MENU_TOP_LEVEL_LIMIT;
+  const onlyCurrent = (prefs.onlyCurrent !== undefined) ? prefs.onlyCurrent : true;
+  const tabs = await GetLastClosedTabs(showNumber, onlyCurrent);
+  const max_allowed = browser.contextMenus.ACTION_MENU_TOP_LEVEL_LIMIT;
 
   // This block is for creating the "page" or "tab" context menus.
   // They are only drawn if at least one tab can be restored.
@@ -143,9 +144,12 @@ async function ClosedTabListChanged() {
 
 // Fired if one of our context menu entries is clicked.
 // Restores the tab, referenced by this context menu entry.
-function ContextMenuClicked(aInfo) {
-  let sessionid = aInfo.menuItemId.substring(aInfo.menuItemId.indexOf(":") + 1);
-  browser.sessions.restore(sessionid);
+async function ContextMenuClicked(aInfo) {
+  const sessionid = aInfo.menuItemId.substring(aInfo.menuItemId.indexOf(":") + 1);
+  const session = await browser.sessions.restore(sessionid);
+  const currentWindow = await browser.windows.getCurrent();
+  if (session.tab.windowId != currentWindow.id)
+    browser.windows.update(session.tab.windowId, {focused: true});
 }
 
 

@@ -1,6 +1,7 @@
 const numberText = document.querySelector("#number_inputbox");
 const checkPage = document.querySelector("#menu_page_checkbox");
 const checkTab = document.querySelector("#menu_tab_checkbox");
+const checkOnlyCurrent = document.querySelector("#onlycurrent_checkbox");
 
 async function numberChanged(e) {
   let showNumber = parseInt(numberText.value);
@@ -29,13 +30,19 @@ async function checkboxChanged(e) {
       showPageMenu: checkPage.checked
     });
     break;
+  case "onlycurrent_checkbox":
+    await browser.storage.local.set({
+      onlyCurrent: checkOnlyCurrent.checked
+    });
+    break;
   }
   browser.extension.getBackgroundPage().ClosedTabListChanged();
 }
 
 function init() {
-  document.querySelector("#general_headline").textContent = browser.i18n.getMessage("general_headline_label");
+  document.querySelector("#contextmenus_headline").textContent = browser.i18n.getMessage("contextmenus_headline_label");
   document.querySelector("#number_label").textContent = browser.i18n.getMessage("menuitem_number_label");
+  document.querySelector("#onlycurrent_label").textContent = browser.i18n.getMessage("onlycurrent_label");
   document.querySelector("#menus_headline").textContent = browser.i18n.getMessage("menus_headline_label");
   document.querySelector("#menu_tab_label").textContent = browser.i18n.getMessage("menu_tab_label");
   document.querySelector("#menu_page_label").textContent = browser.i18n.getMessage("menu_page_label");
@@ -46,6 +53,7 @@ function init() {
   numberText.addEventListener("change", numberChanged);
   checkTab.addEventListener("change", checkboxChanged);
   checkPage.addEventListener("change", checkboxChanged);
+  checkOnlyCurrent.addEventListener("change", checkboxChanged);
 }
 
 function loadOptions() {
@@ -53,6 +61,7 @@ function loadOptions() {
     numberText.value = result.showNumber || browser.sessions.MAX_SESSION_RESULTS;
     checkTab.checked = result.showTabMenu || false;
     checkPage.checked = result.showPageMenu || false;
+    checkOnlyCurrent.checked = (result.onlyCurrent !== undefined) ? result.onlyCurrent : true;
   });
 }
 
