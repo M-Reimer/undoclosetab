@@ -1,0 +1,51 @@
+{
+  "extensionName": {
+    "message": "Kapanan Sekmeyi Geri Aç",
+    "description": "Name of the extension."
+  },
+  "extensionDescription": {
+    "message": "Son kapanan sekmeyi geri açar.",
+    "description": "Description of the extension."
+  },
+
+  "more_entries_menu": {
+    "message": "Daha fazla kayıt",
+    "description": "Last menu on Context menus of the browser action, as the top-level menu cannot exceed 6 items."
+  },
+
+  "contextmenus_headline_label": {
+    "message": "İçerik menüleri",
+    "description": "Headline for context menu options in options page"
+  },
+  "menuitem_number_label": {
+    "message": "Kapanan sekme menüsündeki toplam kayıt sayısı:",
+    "description": "Closed tabs number on context menu items."
+  },
+  "numberText_title": {
+    "message": "İçerik menüsündeki kapanan sekme sayısı, aralık 1 - $1 arasında",
+    "description": "tooltip on number input box.",
+    "placeholders": {
+      "maxResults": {
+        "content": "$1",
+        "example": "25"
+      }
+    }
+  },
+
+  "onlycurrent_label": {
+    "message": "Sadece aktif penceredeki kapanan sekmeleri listele",
+    "description": "Label on checkbox for filtering menu items to current window"
+  },
+  "menus_headline_label": {
+    "message": "Ekstra ayarlar",
+    "description": "Headline for additional menu checkboxes in options page"
+  },
+  "menu_tab_label": {
+    "message": "Sekme içerik menüsü içinde alt menü",
+    "description": "Label on checkbox to enable submenu in tab bar context menu"
+  },
+  "menu_page_label": {
+    "message": "Sayfa içerik menüsü içinde alt menü",
+    "description": "Label on checkbox to enable submenu in page context menu"
+  }
+}
