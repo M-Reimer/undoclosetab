@@ -64,7 +64,7 @@ function CreateContextMenuItem(aId, aTitle, aIconUrl, aContexts, aParent) {
 // Updates the context menu entries with the list of last closed tabs.
 async function ClosedTabListChanged() {
   await browser.contextMenus.removeAll();
-  const prefs = await(browser.storage.local.get());
+  const prefs = await browser.storage.local.get();
   const showNumber = prefs.showNumber || browser.sessions.MAX_SESSION_RESULTS;
   const showTabMenu = prefs.showTabMenu || false;
   const showPageMenu = prefs.showPageMenu || false;
