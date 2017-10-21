@@ -24,7 +24,12 @@
 
   "browser_action": {
     "browser_style": true,
-    "default_icon": "icons/undoclosetab.svg"
+    "default_icon": "icons/undoclosetab.svg",
+    "theme_icons": [{
+      "dark": "icons/undoclosetab.svg",
+      "light": "icons/undoclosetab-light.svg",
+      "size": 19
+    }]
   },
 
   "options_ui": {
