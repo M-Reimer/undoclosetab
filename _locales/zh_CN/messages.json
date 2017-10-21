@@ -3,9 +3,8 @@
     "message": "找回已关闭的标签页",
     "description": "Name of the extension."
   },
-
   "extensionDescription": {
-    "message": "重新打开已经关闭的标签页。",
+    "message": "重新打开最后关闭的标签页。",
     "description": "Description of the extension."
   },
 
@@ -14,6 +13,10 @@
     "description": "Last menu on Context menus of the browser action, as the top-level menu cannot exceed 6 items."
   },
 
+  "contextmenus_headline_label": {
+    "message": "上下文菜单",
+    "description": "Headline for context menu options in options page"
+  },
   "menuitem_number_label": {
     "message": "菜单中显示多少个已关闭的标签页:",
     "description": "Closed tabs number on context menu items."
@@ -27,5 +30,22 @@
         "example": "25"
       }
     }
+  },
+
+  "onlycurrent_label": {
+    "message": "只列出当前窗口中关闭的标签页",
+    "description": "Label on checkbox for filtering menu items to current window"
+  },
+  "menus_headline_label": {
+    "message": "附加菜单",
+    "description": "Headline for additional menu checkboxes in options page"
+  },
+  "menu_tab_label": {
+    "message": "在标签栏的右键菜单中显示为子菜单",
+    "description": "Label on checkbox to enable submenu in tab bar context menu"
+  },
+  "menu_page_label": {
+    "message": "在页面的右键菜单中显示为子菜单",
+    "description": "Label on checkbox to enable submenu in page context menu"
   }
 }
