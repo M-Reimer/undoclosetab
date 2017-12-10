@@ -60,6 +60,24 @@ function CreateContextMenuItem(aId, aTitle, aIconUrl, aContexts, aParent) {
   return browser.contextMenus.create(menuProperty);
 }
 
+// Fired if the window focus changed. This function acts as a filter.
+// The unfiltered calls get forwarded to "ClosedTabListChanged()".
+function WindowFocusChanged(aWindowId) {
+  // We aren't interested in "unfocus" events
+  if (aWindowId == browser.windows.WINDOW_ID_NONE)
+    return;
+
+  // We are only interested in real window switches. No double calls!
+  if (typeof WindowFocusChanged.lastwindow == 'undefined')
+    WindowFocusChanged.lastwindow = browser.windows.WINDOW_ID_NONE;
+  if (aWindowId == WindowFocusChanged.lastwindow)
+    return;
+  WindowFocusChanged.lastwindow = aWindowId;
+
+  // Finally continue in "ClosedTabListChanged()"
+  ClosedTabListChanged();
+}
+
 // Fired if the list of closed tabs has changed.
 // Updates the context menu entries with the list of last closed tabs.
 async function ClosedTabListChanged() {
@@ -167,7 +185,7 @@ try {
 browser.browserAction.onClicked.addListener(ToolbarButtonClicked);
 
 browser.sessions.onChanged.addListener(ClosedTabListChanged);
-browser.windows.onFocusChanged.addListener(ClosedTabListChanged);
+browser.windows.onFocusChanged.addListener(WindowFocusChanged);
 ClosedTabListChanged();
 
 browser.contextMenus.onClicked.addListener(ContextMenuClicked);
