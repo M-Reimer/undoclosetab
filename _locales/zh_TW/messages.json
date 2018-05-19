@@ -1,0 +1,51 @@
+{
+  "extensionName": {
+    "message": "復原已關閉分頁",
+    "description": "Name of the extension."
+  },
+  "extensionDescription": {
+    "message": "重新開啟最後關閉的分頁。",
+    "description": "Description of the extension."
+  },
+
+  "more_entries_menu": {
+    "message": "更多項目",
+    "description": "Last menu on Context menus of the browser action, as the top-level menu cannot exceed 6 items."
+  },
+
+  "contextmenus_headline_label": {
+    "message": "右鍵選單",
+    "description": "Headline for context menu options in options page"
+  },
+  "menuitem_number_label": {
+    "message": "選單中顯示多少個已關閉的分頁:",
+    "description": "Closed tabs number on context menu items."
+  },
+  "numberText_title": {
+    "message": "顯示多少個已關閉的分頁，範圍 1 - $1",
+    "description": "tooltip on number input box.",
+    "placeholders": {
+      "maxResults": {
+        "content": "$1",
+        "example": "25"
+      }
+    }
+  },
+
+  "onlycurrent_label": {
+    "message": "只列出目前視窗中關閉的分頁",
+    "description": "Label on checkbox for filtering menu items to current window"
+  },
+  "menus_headline_label": {
+    "message": "其他選單",
+    "description": "Headline for additional menu checkboxes in options page"
+  },
+  "menu_tab_label": {
+    "message": "在分頁列的右鍵選單中顯示為子選單",
+    "description": "Label on checkbox to enable submenu in tab bar context menu"
+  },
+  "menu_page_label": {
+    "message": "在頁面的右鍵選單中顯示為子選單",
+    "description": "Label on checkbox to enable submenu in page context menu"
+  }
+}
