@@ -14,7 +14,7 @@ undoclosetab-trunk.xpi: $(FILES) icons/undoclosetab-light.svg
 	@zip -9 - $^ > $@
 
 icons/undoclosetab-light.svg: icons/undoclosetab.svg
-	@sed 's/:#4c4c4c/:#ffffff/g' $^ > $@
+	@sed 's/:#0c0c0d/:#f9f9fa/g' $^ > $@
 
 clean:
 	rm -f undoclosetab-trunk.xpi
