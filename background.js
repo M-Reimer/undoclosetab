@@ -1,6 +1,6 @@
 /*
     Firefox addon "Undo Close Tab"
-    Copyright (C) 2017  Manuel Reimer <manuel.reimer@gmx.de>
+    Copyright (C) 2018  Manuel Reimer <manuel.reimer@gmx.de>
     Copyright (C) 2017  YFdyh000 <yfdyh000@gmail.com>
 
     This program is free software: you can redistribute it and/or modify

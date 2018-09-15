@@ -19,7 +19,7 @@
   },
 
   "background": {
-    "scripts": ["background.js"]
+    "scripts": ["background.js", "iconupdater.js"]
   },
 
   "browser_action": {
@@ -42,7 +42,8 @@
     "contextMenus",
     "tabs",
     "sessions",
-    "storage"
+    "storage",
+    "theme"
   ],
 
   "default_locale": "en"
