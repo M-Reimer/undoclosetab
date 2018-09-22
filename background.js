@@ -54,7 +54,7 @@ function CreateContextMenuItem(aId, aTitle, aIconUrl, aContexts, aParent) {
   if (aParent)
     menuProperty.parentId = aParent;
 
-  if (MENU_ICONS_SUPPORTED && aIconUrl)
+  if (aIconUrl)
     menuProperty.icons = { 18: aIconUrl };
 
   return browser.contextMenus.create(menuProperty);
@@ -141,10 +141,9 @@ async function ClosedTabListChanged() {
       );
     });
 
-    const prefix = MENU_ICONS_SUPPORTED ? "" : "* ";
     let moreMenu = CreateContextMenuItem(
       "MoreClosedTabs",
-      prefix + browser.i18n.getMessage("more_entries_menu"),
+      browser.i18n.getMessage("more_entries_menu"),
       "icons/folder.svg",
       ["browser_action"]
     );
@@ -171,15 +170,6 @@ async function ContextMenuClicked(aInfo) {
     browser.windows.update(session.tab.windowId, {focused: true});
 }
 
-
-// Check for "icons" support in context menus by adding a temporary entry.
-// In Firefox 55, this will lead to an error:
-// TypeError: item is undefined  ext-contextMenus.js:127:1
-var MENU_ICONS_SUPPORTED = false;
-try {
-  browser.contextMenus.create({title: "test", icons: {18: "icons/undoclosetab.svg"}});
-  MENU_ICONS_SUPPORTED = true;
-} catch(e) {}
 
 // Register event listeners
 browser.browserAction.onClicked.addListener(ToolbarButtonClicked);
