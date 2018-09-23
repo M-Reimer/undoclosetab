@@ -14,7 +14,7 @@
     "description": "Last menu on Context menus of the browser action, as the top-level menu cannot exceed 6 items."
   },
 
-  "contextmenu_headline_label": {
+  "contextmenus_headline_label": {
     "message": "Kontextmenüs",
     "description": "Headline for context menu options in options page"
   },
