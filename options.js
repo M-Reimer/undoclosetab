@@ -40,12 +40,16 @@ async function checkboxChanged(e) {
 }
 
 function init() {
-  document.querySelector("#contextmenus_headline").textContent = browser.i18n.getMessage("contextmenus_headline_label");
-  document.querySelector("#number_label").textContent = browser.i18n.getMessage("menuitem_number_label");
-  document.querySelector("#onlycurrent_label").textContent = browser.i18n.getMessage("onlycurrent_label");
-  document.querySelector("#menus_headline").textContent = browser.i18n.getMessage("menus_headline_label");
-  document.querySelector("#menu_tab_label").textContent = browser.i18n.getMessage("menu_tab_label");
-  document.querySelector("#menu_page_label").textContent = browser.i18n.getMessage("menu_page_label");
+  [
+    "contextmenus_headline",
+    "menuitem_number_label",
+    "onlycurrent_label",
+    "menus_headline",
+    "menu_tab_label",
+    "menu_page_label"
+  ].forEach((id) => {
+    document.querySelector("#" + id).textContent = browser.i18n.getMessage(id);
+  });
   numberText.title = browser.i18n.getMessage("numberText_title", browser.sessions.MAX_SESSION_RESULTS);
 
   numberText.max = browser.sessions.MAX_SESSION_RESULTS;

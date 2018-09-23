@@ -13,7 +13,7 @@
     "description": "Last menu on Context menus of the browser action, as the top-level menu cannot exceed 6 items."
   },
 
-  "contextmenus_headline_label": {
+  "contextmenus_headline": {
     "message": "İçerik menüleri",
     "description": "Headline for context menu options in options page"
   },
@@ -36,7 +36,7 @@
     "message": "Sadece aktif penceredeki kapanan sekmeleri listele",
     "description": "Label on checkbox for filtering menu items to current window"
   },
-  "menus_headline_label": {
+  "menus_headline": {
     "message": "Ekstra ayarlar",
     "description": "Headline for additional menu checkboxes in options page"
   },
