@@ -48,5 +48,9 @@
   "menu_page_label": {
     "message": "Untermenü im Kontextmenü der Seite",
     "description": "Label on checkbox to enable submenu in page context menu"
+  },
+  "menuitem_page_label": {
+    "message": "Menüeintrag im Kontextmenü der Seite",
+    "description": "Label on checkbox to enable menuitem in page context menu"
   }
 }

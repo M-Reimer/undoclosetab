@@ -86,6 +86,7 @@ async function ClosedTabListChanged() {
   const showNumber = prefs.showNumber || browser.sessions.MAX_SESSION_RESULTS;
   const showTabMenu = prefs.showTabMenu || false;
   const showPageMenu = prefs.showPageMenu || false;
+  const showPageMenuitem = prefs.showPageMenuitem || false;
   const onlyCurrent = (prefs.onlyCurrent !== undefined) ? prefs.onlyCurrent : true;
   const tabs = await GetLastClosedTabs(showNumber, onlyCurrent);
   const max_allowed = browser.contextMenus.ACTION_MENU_TOP_LEVEL_LIMIT;
@@ -115,6 +116,15 @@ async function ClosedTabListChanged() {
         rootmenu
       );
     });
+  }
+
+  if (showPageMenuitem) {
+    CreateContextMenuItem(
+      "UndoCloseTab",
+      browser.i18n.getMessage("extensionName"),
+      false,
+      ["page"]
+    );
   }
 
   // If closed tabs count is less or equal maximum allowed menu entries, then
@@ -163,6 +173,11 @@ async function ClosedTabListChanged() {
 // Fired if one of our context menu entries is clicked.
 // Restores the tab, referenced by this context menu entry.
 async function ContextMenuClicked(aInfo) {
+  if (aInfo.menuItemId == "UndoCloseTab") {
+    await ToolbarButtonClicked();
+    return;
+  }
+
   const sessionid = aInfo.menuItemId.substring(aInfo.menuItemId.indexOf(":") + 1);
   const session = await browser.sessions.restore(sessionid);
   const currentWindow = await browser.windows.getCurrent();
