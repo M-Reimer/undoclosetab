@@ -48,7 +48,7 @@ function ThemeUpdated(updateInfo) {
       const ctx = canvas.getContext("2d");
       ctx.drawImage(img, 0, 0);
       const imageData = ctx.getImageData(0, 0, size, size);
-      const data = {imageData: {}, windowId: updateInfo.windowId};
+      const data = {imageData: {}};
       data.imageData[size] = imageData
       browser.browserAction.setIcon(data);
     }
