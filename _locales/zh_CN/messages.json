@@ -13,6 +13,11 @@
     "description": "Last menu on Context menus of the browser action, as the top-level menu cannot exceed 6 items."
   },
 
+  "page_contextmenu_submenu": {
+    "message": "找回已关闭的标签页",
+    "description": "The label used for the submenu added to the page context menu (the one with the recently closed tab list). Please use the same string as in 'extensionName' whenever possible!"
+  },
+
   "contextmenus_headline": {
     "message": "上下文菜单",
     "description": "Headline for context menu options in options page"

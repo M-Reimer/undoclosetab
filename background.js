@@ -102,7 +102,7 @@ async function ClosedTabListChanged() {
 
     let rootmenu = CreateContextMenuItem(
       "RootMenu",
-      browser.i18n.getMessage("extensionName"),
+      browser.i18n.getMessage("page_contextmenu_submenu"),
       false,
       contexts
     );
