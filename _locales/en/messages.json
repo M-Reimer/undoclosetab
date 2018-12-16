@@ -1,7 +1,7 @@
 {
   "extensionName": {
     "message": "Undo Close Tab",
-    "description": "Name of the extension."
+    "description": "Name of the extension. Also used for the toolbar button tooltip and for the page/tab context menu item for direct tab restore."
   },
   "extensionDescription": {
     "message": "Reopens the last closed tab.",
@@ -15,7 +15,7 @@
 
   "page_contextmenu_submenu": {
     "message": "Undo Close Tab",
-    "description": "The label used for the submenu added to the page context menu (the one with the recently closed tab list). Please use the same string as in 'extensionName' whenever possible!"
+    "description": "The label used for the submenu added to the page/tab context menu (the one with the recently closed tab list). Please use the same string as in 'extensionName' whenever possible!"
   },
 
   "contextmenus_headline": {
