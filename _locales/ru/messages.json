@@ -1,7 +1,7 @@
 {
     "extensionName": {
-        "message": "Список закрытых вкладок",
-        "description": "Name of the extension.",
+        "message": "Undo Close Tab",
+        "description": "Name of the extension. Also used for the toolbar button tooltip and for the page/tab context menu item for direct tab restore.",
         "hash": "64c3b70943ee77066e4d90550f73fe60"
     },
     "extensionDescription": {
@@ -13,6 +13,11 @@
         "message": "Больше записей",
         "description": "Last menu on Context menus of the browser action, as the top-level menu cannot exceed 6 items.",
         "hash": "2faee14e6cb6b941b08d3a1eea098a8e"
+    },
+    "page_contextmenu_submenu": {
+        "message": "Список закрытых вкладок",
+        "description": "The label used for the submenu added to the page/tab context menu (the one with the recently closed tab list). Please use the same string as in 'extensionName' whenever possible!",
+        "hash": "64c3b70943ee77066e4d90550f73fe60"
     },
     "contextmenus_headline": {
         "message": "Контекстное меню",
