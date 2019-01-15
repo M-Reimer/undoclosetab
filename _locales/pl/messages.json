@@ -1,0 +1,67 @@
+{
+    "extensionName": {
+        "message": "Przywróć zamkniętą kartę",
+        "description": "Name of the extension. Also used for the toolbar button tooltip and for the page/tab context menu item for direct tab restore.",
+        "hash": "64c3b70943ee77066e4d90550f73fe60"
+    },
+    "extensionDescription": {
+        "message": "Przywraca ostatnio zamkniętą kartę.",
+        "description": "Description of the extension.",
+        "hash": "feb53325fd2a69298e4ac7433611fba1"
+    },
+    "more_entries_menu": {
+        "message": "Więcej",
+        "description": "Last menu on Context menus of the browser action, as the top-level menu cannot exceed 6 items.",
+        "hash": "2faee14e6cb6b941b08d3a1eea098a8e"
+    },
+    "page_contextmenu_submenu": {
+        "message": "Przywróć zamkniętą kartę",
+        "description": "The label used for the submenu added to the page/tab context menu (the one with the recently closed tab list). Please use the same string as in 'extensionName' whenever possible!",
+        "hash": "64c3b70943ee77066e4d90550f73fe60"
+    },
+    "contextmenus_headline": {
+        "message": "Menu podręczne",
+        "description": "Headline for context menu options in options page",
+        "hash": "c865d765c4c6a4157de8336fad083f8e"
+    },
+    "menuitem_number_label": {
+        "message": "Liczba zamkniętych kart pokazywanych w menu:",
+        "description": "Closed tabs number on context menu items.",
+        "hash": "8f71ac4eebcd5ee918321c62d55fcf19"
+    },
+    "numberText_title": {
+        "message": "Liczba zamkniętych kart w menu podręcznym, zakres to 1 - $1",
+        "description": "tooltip on number input box.",
+        "placeholders": {
+            "maxResults": { "content": "$1", "example": "25" }
+        },
+        "hash": "40a445627cbea0310e6fdc25944a2096"
+    },
+    "onlycurrent_label": {
+        "message": "Pokazuj tylko te karty, które zostały zamknięte w bieżącym oknie",
+        "description": "Label on checkbox for filtering menu items to current window",
+        "hash": "ff97d8d8b39692e9b010ebe354777c89"
+    },
+    "menus_headline": {
+        "message": "Dodatkowe menu",
+        "description": "Headline for additional menu checkboxes in options page",
+        "hash": "d2d0134f4d85db563973c1ad1a0d9831"
+    },
+    "menu_tab_label": {
+        "message": "Dodatkowe menu podręczne w menu dostępnym po kliknięciu prawym przyciskiem myszy na karcie",
+        "description": "Label on checkbox to enable submenu in tab bar context menu",
+        "hash": "0031523137f27c650862f888395e599d"
+    },
+    "menu_page_label": {
+        "message": "Dodatkowe menu podręczne w menu dostępnym po kliknięciu prawym przyciskiem myszy na stronie",
+        "description": "Label on checkbox to enable submenu in page context menu",
+        "hash": "03b779fff222918a5f544314ffd07f0e"
+    },
+    "menuitem_page_label": {
+        "message": "Dodatkowy element w menu dostępnym po kliknięciu prawym przyciskiem myszy na stronie",
+        "description": "Label on checkbox to enable menuitem in page context menu",
+        "hash": "520d2256897061311967e99b19d75764"
+    },
+
+    "__WET_LOCALE__": { "message": "pl" }
+}
