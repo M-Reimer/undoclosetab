@@ -24,7 +24,7 @@ function ThemeUpdated(updateInfo) {
   if (updateInfo.theme.colors) {
     // Get new color
     const colors = updateInfo.theme.colors;
-    const color = (colors.icons == null) ? colors.toolbar_text : colors.icons;
+    const color = colors.icons || colors.toolbar_text || colors.textcolor;
 
     // Get SVG image
     const xhr = new XMLHttpRequest();
