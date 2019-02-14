@@ -1,0 +1,60 @@
+{
+  "extensionName": {
+    "message": "Undo Close Tab",
+    "description": "Name of the extension. Also used for the toolbar button tooltip and for the page/tab context menu item for direct tab restore."
+  },
+  "extensionDescription": {
+    "message": "Öppnar den sista stängda fliken.",
+    "description": "Description of the extension."
+  },
+
+  "more_entries_menu": {
+    "message": "Fler poster",
+    "description": "Last menu on Context menus of the browser action, as the top-level menu cannot exceed 6 items."
+  },
+
+  "page_contextmenu_submenu": {
+    "message": "Ångra flikstängning",
+    "description": "The label used for the submenu added to the page/tab context menu (the one with the recently closed tab list). Please use the same string as in 'extensionName' whenever possible!"
+  },
+
+  "contextmenus_headline": {
+    "message": "Innehållsmenyer",
+    "description": "Headline for context menu options in options page"
+  },
+  "menuitem_number_label": {
+    "message": "Antal objekt som visas på den slutna flikmenyn:",
+    "description": "Closed tabs number on context menu items."
+  },
+  "numberText_title": {
+    "message": "Antalet stängda flikar på innehållsmenyn mellan 1 - $1",
+    "description": "tooltip on number input box.",
+    "placeholders": {
+      "maxResults": {
+        "content": "$1",
+        "example": "25"
+      }
+    }
+  },
+
+  "onlycurrent_label": {
+    "message": "Visa endast flikar som stängdes i det aktuella fönstret",
+    "description": "Label on checkbox for filtering menu items to current window"
+  },
+  "menus_headline": {
+    "message": "Ytterligare menyer",
+    "description": "Headline for additional menu checkboxes in options page"
+  },
+  "menu_tab_label": {
+    "message": "Undermeny i flikradens innehållsmeny",
+    "description": "Label on checkbox to enable submenu in tab bar context menu"
+  },
+  "menu_page_label": {
+    "message": "Undermeny på sidans innehållsmeny",
+    "description": "Label on checkbox to enable submenu in page context menu"
+  },
+  "menuitem_page_label": {
+    "message": "Menyfältet på sidans innehållsmeny",
+    "description": "Label on checkbox to enable menuitem in page context menu"
+  }
+}
