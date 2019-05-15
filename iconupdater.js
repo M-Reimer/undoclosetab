@@ -1,6 +1,6 @@
 /*
     Firefox addon "Undo Close Tab"
-    Copyright (C) 2018  Manuel Reimer <manuel.reimer@gmx.de>
+    Copyright (C) 2019  Manuel Reimer <manuel.reimer@gmx.de>
     Copyright (C) 2017  YFdyh000 <yfdyh000@gmail.com>
 
     This program is free software: you can redistribute it and/or modify
@@ -24,7 +24,7 @@ function ThemeUpdated(updateInfo) {
   if (updateInfo.theme.colors) {
     // Get new color
     const colors = updateInfo.theme.colors;
-    const color = colors.icons || colors.toolbar_text || colors.textcolor;
+    const color = colors.icons || colors.toolbar_text || colors.textcolor || colors.tab_background_text;
 
     // Get SVG image
     const xhr = new XMLHttpRequest();
