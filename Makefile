@@ -11,12 +11,20 @@ FILES = manifest.json \
         $(wildcard _locales/*/messages.json) \
         $(wildcard icons/*.svg)
 
-undoclosetab-trunk.xpi: $(FILES) icons/undoclosetab-light.svg
+ADDON = undoclosetab
+
+VERSION = $(shell sed -n  's/^  "version": "\([^"]\+\).*/\1/p' manifest.json)
+
+trunk: $(ADDON)-trunk.xpi
+
+release: $(ADDON)-$(VERSION).xpi
+
+%.xpi: $(FILES) icons/$(ADDON)-light.svg
 	@zip -9 - $^ > $@
 
-icons/undoclosetab-light.svg: icons/undoclosetab.svg
+icons/$(ADDON)-light.svg: icons/$(ADDON).svg
 	@sed 's/:#0c0c0d/:#f9f9fa/g' $^ > $@
 
 clean:
-	rm -f undoclosetab-trunk.xpi
-	rm -f icons/undoclosetab-light.svg
+	rm -f $(ADDON)-*.xpi
+	rm -f icons/$(ADDON)-light.svg
