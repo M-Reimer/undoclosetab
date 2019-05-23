@@ -20,44 +20,54 @@
 // Fired whenever colors in browser change
 function ThemeUpdated(updateInfo) {
   const size = 32;
-  // Theme colors have changed
-  if (updateInfo.theme.colors) {
-    // Get new color
-    const colors = updateInfo.theme.colors;
-    const color = colors.icons || colors.toolbar_text || colors.textcolor || colors.tab_background_text;
 
-    // Get SVG image
-    const xhr = new XMLHttpRequest();
-    xhr.open("GET", chrome.extension.getURL("icons/undoclosetab.svg"), false);
-    xhr.send();
-    let svg = xhr.responseText;
-
-    // Replace color in SVG and convert result to data-URL
-    svg = svg.replace(/#0c0c0d/g, color);
-    svg = svg.replace(/opacity:0.8/g, "opacity:1.0");
-    const svgdataurl = "data:image/svg+xml;base64," + btoa(svg);
-
-    // Create canvas to render to
-    const canvas = document.createElement("canvas");
-    canvas.width = size;
-    canvas.height = size;
-
-    // Render SVG to canvas and set resulting ImageData to our browserAction
-    const img = new Image(size, size);
-    img.onload = function() {
-      const ctx = canvas.getContext("2d");
-      ctx.drawImage(img, 0, 0);
-      const imageData = ctx.getImageData(0, 0, size, size);
-      const data = {imageData: {}};
-      data.imageData[size] = imageData
-      browser.browserAction.setIcon(data);
-    }
-    img.src = svgdataurl;
-  }
   // Theme has been reset/disabled
-  else {
+  if (!updateInfo.theme.colors) {
     browser.browserAction.setIcon({imageData: null});
+    return;
   }
+
+  // Get new color
+  const colors = updateInfo.theme.colors;
+  const color = colors.icons ||
+                colors.toolbar_text ||
+                colors.bookmark_text ||
+                colors.textcolor ||
+                colors.tab_background_text;
+
+  // Theme without usable color value
+  if (!color) {
+    browser.browserAction.setIcon({imageData: null});
+    return;
+  }
+
+  // Get SVG image
+  const xhr = new XMLHttpRequest();
+  xhr.open("GET", chrome.extension.getURL("icons/undoclosetab.svg"), false);
+  xhr.send();
+  let svg = xhr.responseText;
+
+  // Replace color in SVG and convert result to data-URL
+  svg = svg.replace(/#0c0c0d/g, color);
+  svg = svg.replace(/opacity:0.8/g, "opacity:1.0");
+  const svgdataurl = "data:image/svg+xml;base64," + btoa(svg);
+
+  // Create canvas to render to
+  const canvas = document.createElement("canvas");
+  canvas.width = size;
+  canvas.height = size;
+
+  // Render SVG to canvas and set resulting ImageData to our browserAction
+  const img = new Image(size, size);
+  img.onload = function() {
+    const ctx = canvas.getContext("2d");
+    ctx.drawImage(img, 0, 0);
+    const imageData = ctx.getImageData(0, 0, size, size);
+    const data = {imageData: {}};
+    data.imageData[size] = imageData
+    browser.browserAction.setIcon(data);
+  }
+  img.src = svgdataurl;
 }
 
 // Register to "onUpdated" event, so we know when theme colors change.
