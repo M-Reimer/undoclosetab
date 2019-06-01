@@ -28,3 +28,7 @@ icons/$(ADDON)-light.svg: icons/$(ADDON).svg
 clean:
 	rm -f $(ADDON)-*.xpi
 	rm -f icons/$(ADDON)-light.svg
+
+# Starts local debug session
+run: icons/$(ADDON)-light.svg
+	web-ext run --bc
