@@ -71,6 +71,9 @@ const IconUpdater = {
   },
 
   Init: function(aDefaultImage) {
+    if (browser.browserAction.setIcon === undefined) // If on Android
+      return;
+
     this.default_image = aDefaultImage;
 
     // Register to "onUpdated" event, so we know when theme colors change.
