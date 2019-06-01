@@ -194,3 +194,5 @@ browser.windows.onFocusChanged.addListener(WindowFocusChanged);
 ClosedTabListChanged();
 
 browser.contextMenus.onClicked.addListener(ContextMenuClicked);
+
+IconUpdater.Init("icons/undoclosetab.svg");
