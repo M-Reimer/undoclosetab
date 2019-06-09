@@ -43,23 +43,6 @@ async function ToolbarButtonClicked() {
     await browser.sessions.restore(tabs[0].sessionId);
 }
 
-// Helper function. Creates one context menu entry.
-function CreateContextMenuItem(aId, aTitle, aIconUrl, aContexts, aParent) {
-  let menuProperty = {
-    id: aId,
-    title: aTitle,
-    contexts: aContexts
-  };
-
-  if (aParent)
-    menuProperty.parentId = aParent;
-
-  if (aIconUrl)
-    menuProperty.icons = { 18: aIconUrl };
-
-  return browser.contextMenus.create(menuProperty);
-}
-
 // Fired if the window focus changed. This function acts as a filter.
 // The unfiltered calls get forwarded to "ClosedTabListChanged()".
 function WindowFocusChanged(aWindowId) {
@@ -101,21 +84,20 @@ async function ClosedTabListChanged() {
     if (showPageMenu)
       contexts.push("page");
 
-    let rootmenu = CreateContextMenuItem(
-      "RootMenu",
-      browser.i18n.getMessage("page_contextmenu_submenu"),
-      false,
-      contexts
-    );
+    let rootmenu = browser.contextMenus.create({
+      id: "RootMenu",
+      title: browser.i18n.getMessage("page_contextmenu_submenu"),
+      contexts: contexts
+    });
 
     tabs.forEach((tab) => {
-      CreateContextMenuItem(
-        "PM:" + tab.sessionId,
-        tab.title,
-        tab.favIconUrl,
-        contexts,
-        rootmenu
-      );
+      browser.contextMenus.create({
+        id: "PM:" + tab.sessionId,
+        title: tab.title,
+        icons: {18: tab.favIconUrl},
+        contexts: contexts,
+        parentId: rootmenu
+      });
     });
 
     if (clearList) {
@@ -135,53 +117,52 @@ async function ClosedTabListChanged() {
   }
 
   if (showPageMenuitem) {
-    CreateContextMenuItem(
-      "UndoCloseTab",
-      browser.i18n.getMessage("extensionName"),
-      false,
-      ["page"]
-    );
+    browser.contextMenus.create({
+      id: "UndoCloseTab",
+      title: browser.i18n.getMessage("extensionName"),
+      contexts: ["page"]
+    });
   }
 
   // If closed tabs count is less or equal maximum allowed menu entries, then
   // no "More items" menu is needed.
   if (tabs.length <= max_allowed) {
     tabs.forEach((tab) => {
-      CreateContextMenuItem(
-        "BA:" + tab.sessionId,
-        tab.title,
-        tab.favIconUrl,
-        ["browser_action"]
-      );
+      browser.contextMenus.create({
+        id: "BA:" + tab.sessionId,
+        title: tab.title,
+        icons: {18: tab.favIconUrl},
+        contexts: ["browser_action"]
+      });
     });
   }
   // If there are too much items, place "maximum - 1" items to the top level
   // and place the rest of them into a submenu.
   else {
     tabs.splice(0, max_allowed - 1).forEach((tab) => {
-      CreateContextMenuItem(
-        "BA:" + tab.sessionId,
-        tab.title,
-        tab.favIconUrl,
-        ["browser_action"]
-      );
+      browser.contextMenus.create({
+        id: "BA:" + tab.sessionId,
+        title: tab.title,
+        icons: {18: tab.favIconUrl},
+        contexts: ["browser_action"]
+      });
     });
 
-    let moreMenu = CreateContextMenuItem(
-      "MoreClosedTabs",
-      browser.i18n.getMessage("more_entries_menu"),
-      "icons/folder.svg",
-      ["browser_action"]
-    );
+    let moreMenu = browser.contextMenus.create({
+      id: "MoreClosedTabs",
+      title: browser.i18n.getMessage("more_entries_menu"),
+      icons: {18: "icons/folder.svg"},
+      contexts: ["browser_action"]
+    });
 
     tabs.forEach((tab) => {
-      CreateContextMenuItem(
-        "BA:" + tab.sessionId,
-        tab.title,
-        tab.favIconUrl,
-        ["browser_action"],
-        moreMenu
-      );
+      browser.contextMenus.create({
+        id: "BA:" + tab.sessionId,
+        title: tab.title,
+        icons: {18: tab.favIconUrl},
+        contexts: ["browser_action"],
+        parentId: moreMenu
+      });
     });
   }
 
