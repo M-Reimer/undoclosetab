@@ -88,8 +88,9 @@ async function ClosedTabListChanged() {
   const showPageMenu = prefs.showPageMenu || false;
   const showPageMenuitem = prefs.showPageMenuitem || false;
   const onlyCurrent = (prefs.onlyCurrent !== undefined) ? prefs.onlyCurrent : true;
+  const clearList = prefs.showClearList || false;
   const tabs = await GetLastClosedTabs(showNumber, onlyCurrent);
-  const max_allowed = browser.contextMenus.ACTION_MENU_TOP_LEVEL_LIMIT;
+  const max_allowed = browser.contextMenus.ACTION_MENU_TOP_LEVEL_LIMIT - (clearList ? 1 : 0);
 
   // This block is for creating the "page" or "tab" context menus.
   // They are only drawn if at least one tab can be restored.
@@ -116,6 +117,21 @@ async function ClosedTabListChanged() {
         rootmenu
       );
     });
+
+    if (clearList) {
+      browser.contextMenus.create({
+        id: "ClearListSeparator",
+        type: "separator",
+        contexts: contexts,
+        parentId: rootmenu
+      });
+      browser.contextMenus.create({
+        id: "PM:ClearList",
+        title: browser.i18n.getMessage("clearlist_menuitem"),
+        contexts: contexts,
+        parentId: rootmenu
+      });
+    }
   }
 
   if (showPageMenuitem) {
@@ -168,6 +184,14 @@ async function ClosedTabListChanged() {
       );
     });
   }
+
+  if (tabs.length && clearList) {
+    browser.contextMenus.create({
+      id: "BA:ClearList",
+      title: browser.i18n.getMessage("clearlist_menuitem"),
+      contexts: ["browser_action"],
+    });
+  }
 }
 
 // Fired if one of our context menu entries is clicked.
@@ -175,6 +199,15 @@ async function ClosedTabListChanged() {
 async function ContextMenuClicked(aInfo) {
   if (aInfo.menuItemId == "UndoCloseTab") {
     await ToolbarButtonClicked();
+    return;
+  }
+  if (aInfo.menuItemId.endsWith("ClearList")) {
+    const prefs = await browser.storage.local.get();
+    const onlyCurrent = (prefs.onlyCurrent !== undefined) ? prefs.onlyCurrent : true;
+    const tabs = await GetLastClosedTabs(false, onlyCurrent);
+    tabs.forEach((tab) => {
+      browser.sessions.forgetClosedTab(tab.windowId, tab.sessionId);
+    });
     return;
   }
 

@@ -13,6 +13,10 @@
     "message": "Mehr Einträge",
     "description": "Last menu on Context menus of the browser action, as the top-level menu cannot exceed 6 items."
   },
+  "clearlist_menuitem": {
+    "message": "Liste leeren",
+    "description": "Label for the menuitem for clearing the list of closed tabs"
+  },
 
   "page_contextmenu_submenu": {
     "message": "Geschlossenen Tab wiederherstellen",
@@ -37,11 +41,15 @@
       }
     }
   },
-
   "onlycurrent_label": {
     "message": "Nur geschlossene Tabs des aktuellen Fensters auflisten",
     "description": "Label on checkbox for filtering menu items to current window"
   },
+  "menuitem_clearlist_label": {
+    "message": "Menüeintrag zum Leeren der Liste von geschlossenen Tabs anzeigen",
+    "description": "Label on checkbox for enabling the 'Clear List' menu item"
+  },
+
   "menus_headline": {
     "message": "Zusätzliche Menüs",
     "description": "Headline for additional menu checkboxes in options page"

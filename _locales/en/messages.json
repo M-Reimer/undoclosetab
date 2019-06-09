@@ -9,8 +9,12 @@
   },
 
   "more_entries_menu": {
-    "message": "More entries",
+    "message": "More Entries",
     "description": "Last menu on Context menus of the browser action, as the top-level menu cannot exceed 6 items."
+  },
+  "clearlist_menuitem": {
+    "message": "Clear List",
+    "description": "Label for the menuitem for clearing the list of closed tabs"
   },
 
   "page_contextmenu_submenu": {
@@ -36,11 +40,15 @@
       }
     }
   },
-
   "onlycurrent_label": {
     "message": "Only list tabs that were closed in the current window",
     "description": "Label on checkbox for filtering menu items to current window"
   },
+  "menuitem_clearlist_label": {
+    "message": "Show menu item for clearing the last closed tab list",
+    "description": "Label on checkbox for enabling the 'Clear List' menu item"
+  },
+
   "menus_headline": {
     "message": "Additional Menus",
     "description": "Headline for additional menu checkboxes in options page"

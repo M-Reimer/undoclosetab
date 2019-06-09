@@ -3,6 +3,7 @@ const checkPage = document.querySelector("#menu_page_checkbox");
 const checkPageMenuitem = document.querySelector("#menuitem_page_checkbox");
 const checkTab = document.querySelector("#menu_tab_checkbox");
 const checkOnlyCurrent = document.querySelector("#onlycurrent_checkbox");
+const checkClearList = document.getElementById("menuitem_clearlist_checkbox");
 
 async function numberChanged(e) {
   let showNumber = parseInt(numberText.value);
@@ -45,6 +46,11 @@ async function checkboxChanged(e) {
       onlyCurrent: checkOnlyCurrent.checked
     });
     break;
+  case checkClearList.id:
+    await browser.storage.local.set({
+      showClearList: checkClearList.checked
+    });
+    break;
   }
   browser.extension.getBackgroundPage().ClosedTabListChanged();
 }
@@ -57,7 +63,8 @@ function init() {
     "menus_headline",
     "menu_tab_label",
     "menu_page_label",
-    "menuitem_page_label"
+    "menuitem_page_label",
+    "menuitem_clearlist_label"
   ].forEach((id) => {
     document.querySelector("#" + id).textContent = browser.i18n.getMessage(id);
   });
@@ -70,6 +77,7 @@ function init() {
   checkPage.addEventListener("change", checkboxChanged);
   checkPageMenuitem.addEventListener("change", checkboxChanged);
   checkOnlyCurrent.addEventListener("change", checkboxChanged);
+  checkClearList.addEventListener("change", checkboxChanged);
 }
 
 function loadOptions() {
@@ -79,6 +87,7 @@ function loadOptions() {
     checkPage.checked = result.showPageMenu || false;
     checkPageMenuitem.checked = result.showPageMenuitem || false;
     checkOnlyCurrent.checked = (result.onlyCurrent !== undefined) ? result.onlyCurrent : true;
+    checkClearList.checked = result.showClearList || false;
   });
 }
 
