@@ -1,6 +1,6 @@
 /*
     Firefox addon "Undo Close Tab"
-    Copyright (C) 2018  Manuel Reimer <manuel.reimer@gmx.de>
+    Copyright (C) 2019  Manuel Reimer <manuel.reimer@gmx.de>
     Copyright (C) 2017  YFdyh000 <yfdyh000@gmail.com>
 
     This program is free software: you can redistribute it and/or modify
@@ -94,7 +94,7 @@ async function ClosedTabListChanged() {
       browser.contextMenus.create({
         id: "PM:" + tab.sessionId,
         title: tab.title,
-        icons: {18: tab.favIconUrl},
+        icons: {18: tab.favIconUrl || "icons/no-favicon.svg"},
         contexts: contexts,
         parentId: rootmenu
       });
@@ -131,7 +131,7 @@ async function ClosedTabListChanged() {
       browser.contextMenus.create({
         id: "BA:" + tab.sessionId,
         title: tab.title,
-        icons: {18: tab.favIconUrl},
+        icons: {18: tab.favIconUrl || "icons/no-favicon.svg"},
         contexts: ["browser_action"]
       });
     });
@@ -143,7 +143,7 @@ async function ClosedTabListChanged() {
       browser.contextMenus.create({
         id: "BA:" + tab.sessionId,
         title: tab.title,
-        icons: {18: tab.favIconUrl},
+        icons: {18: tab.favIconUrl || "icons/no-favicon.svg"},
         contexts: ["browser_action"]
       });
     });
@@ -159,7 +159,7 @@ async function ClosedTabListChanged() {
       browser.contextMenus.create({
         id: "BA:" + tab.sessionId,
         title: tab.title,
-        icons: {18: tab.favIconUrl},
+        icons: {18: tab.favIconUrl || "icons/no-favicon.svg"},
         contexts: ["browser_action"],
         parentId: moreMenu
       });
