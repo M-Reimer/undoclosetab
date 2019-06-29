@@ -1,6 +1,6 @@
 /*
     Firefox addon "Undo Close Tab"
-    Copyright (C) 2018  Manuel Reimer <manuel.reimer@gmx.de>
+    Copyright (C) 2019  Manuel Reimer <manuel.reimer@gmx.de>
     Copyright (C) 2017  YFdyh000 <yfdyh000@gmail.com>
 
     This program is free software: you can redistribute it and/or modify
@@ -65,23 +65,18 @@ function WindowFocusChanged(aWindowId) {
 // Updates the context menu entries with the list of last closed tabs.
 async function ClosedTabListChanged() {
   await browser.contextMenus.removeAll();
-  const prefs = await browser.storage.local.get();
-  const showNumber = prefs.showNumber || browser.sessions.MAX_SESSION_RESULTS;
-  const showTabMenu = prefs.showTabMenu || false;
-  const showPageMenu = prefs.showPageMenu || false;
-  const showPageMenuitem = prefs.showPageMenuitem || false;
-  const onlyCurrent = (prefs.onlyCurrent !== undefined) ? prefs.onlyCurrent : true;
-  const clearList = prefs.showClearList || false;
-  const tabs = await GetLastClosedTabs(showNumber, onlyCurrent);
-  const max_allowed = browser.contextMenus.ACTION_MENU_TOP_LEVEL_LIMIT - (clearList ? 1 : 0);
+  const prefs = await Storage.get();
+
+  const tabs = await GetLastClosedTabs(prefs.showNumber, prefs.onlyCurrent);
+  const max_allowed = browser.contextMenus.ACTION_MENU_TOP_LEVEL_LIMIT - (prefs.showClearList ? 1 : 0);
 
   // This block is for creating the "page" or "tab" context menus.
   // They are only drawn if at least one tab can be restored.
-  if ((showTabMenu || showPageMenu) && tabs.length) {
+  if ((prefs.showTabMenu || prefs.showPageMenu) && tabs.length) {
     let contexts = [];
-    if (showTabMenu)
+    if (prefs.showTabMenu)
       contexts.push("tab");
-    if (showPageMenu)
+    if (prefs.showPageMenu)
       contexts.push("page");
 
     let rootmenu = browser.contextMenus.create({
@@ -100,7 +95,7 @@ async function ClosedTabListChanged() {
       });
     });
 
-    if (clearList) {
+    if (prefs.showClearList) {
       browser.contextMenus.create({
         id: "ClearListSeparator",
         type: "separator",
@@ -116,7 +111,7 @@ async function ClosedTabListChanged() {
     }
   }
 
-  if (showPageMenuitem) {
+  if (prefs.showPageMenuitem) {
     browser.contextMenus.create({
       id: "UndoCloseTab",
       title: browser.i18n.getMessage("extensionName"),
@@ -166,7 +161,7 @@ async function ClosedTabListChanged() {
     });
   }
 
-  if (tabs.length && clearList) {
+  if (tabs.length && prefs.showClearList) {
     browser.contextMenus.create({
       id: "BA:ClearList",
       title: browser.i18n.getMessage("clearlist_menuitem"),
@@ -183,9 +178,8 @@ async function ContextMenuClicked(aInfo) {
     return;
   }
   if (aInfo.menuItemId.endsWith("ClearList")) {
-    const prefs = await browser.storage.local.get();
-    const onlyCurrent = (prefs.onlyCurrent !== undefined) ? prefs.onlyCurrent : true;
-    const tabs = await GetLastClosedTabs(false, onlyCurrent);
+    const prefs = await Storage.get();
+    const tabs = await GetLastClosedTabs(false, prefs.onlyCurrent);
     tabs.forEach((tab) => {
       browser.sessions.forgetClosedTab(tab.windowId, tab.sessionId);
     });

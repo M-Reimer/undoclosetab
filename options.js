@@ -12,7 +12,7 @@ async function numberChanged(e) {
       showNumber < numberText.min)
     showNumber = browser.sessions.MAX_SESSION_RESULTS;
 
-  await browser.storage.local.set({
+  await Storage.set({
     showNumber: showNumber
   });
 
@@ -23,31 +23,31 @@ async function numberChanged(e) {
 async function checkboxChanged(e) {
   switch (e.target.id) {
   case "menu_tab_checkbox":
-    await browser.storage.local.set({
+    await Storage.set({
       showTabMenu: checkTab.checked
     });
     break;
   case "menu_page_checkbox":
-    await browser.storage.local.set({
+    await Storage.set({
       showPageMenu: checkPage.checked,
       showPageMenuitem: false
     });
     checkPageMenuitem.checked = false;
     break;
   case "menuitem_page_checkbox":
-    await browser.storage.local.set({
+    await Storage.set({
       showPageMenu: false,
       showPageMenuitem: checkPageMenuitem.checked
     });
     checkPage.checked = false;
     break;
   case "onlycurrent_checkbox":
-    await browser.storage.local.set({
+    await Storage.set({
       onlyCurrent: checkOnlyCurrent.checked
     });
     break;
   case checkClearList.id:
-    await browser.storage.local.set({
+    await Storage.set({
       showClearList: checkClearList.checked
     });
     break;
@@ -81,13 +81,13 @@ function init() {
 }
 
 function loadOptions() {
-  browser.storage.local.get().then((result) => {
-    numberText.value = result.showNumber || browser.sessions.MAX_SESSION_RESULTS;
-    checkTab.checked = result.showTabMenu || false;
-    checkPage.checked = result.showPageMenu || false;
-    checkPageMenuitem.checked = result.showPageMenuitem || false;
-    checkOnlyCurrent.checked = (result.onlyCurrent !== undefined) ? result.onlyCurrent : true;
-    checkClearList.checked = result.showClearList || false;
+  Storage.get().then((result) => {
+    numberText.value = result.showNumber;
+    checkTab.checked = result.showTabMenu;
+    checkPage.checked = result.showPageMenu;
+    checkPageMenuitem.checked = result.showPageMenuitem;
+    checkOnlyCurrent.checked = result.onlyCurrent;
+    checkClearList.checked = result.showClearList;
   });
 }
 

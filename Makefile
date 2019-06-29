@@ -4,6 +4,7 @@
 #
 
 FILES = manifest.json \
+        storage.js \
         background.js \
         iconupdater.js \
         options.html \
