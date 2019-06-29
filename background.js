@@ -89,7 +89,7 @@ async function ClosedTabListChanged() {
       browser.contextMenus.create({
         id: "PM:" + tab.sessionId,
         title: tab.title,
-        icons: {18: tab.favIconUrl},
+        icons: {18: tab.favIconUrl || "icons/no-favicon.svg"},
         contexts: contexts,
         parentId: rootmenu
       });
@@ -126,7 +126,7 @@ async function ClosedTabListChanged() {
       browser.contextMenus.create({
         id: "BA:" + tab.sessionId,
         title: tab.title,
-        icons: {18: tab.favIconUrl},
+        icons: {18: tab.favIconUrl || "icons/no-favicon.svg"},
         contexts: ["browser_action"]
       });
     });
@@ -138,7 +138,7 @@ async function ClosedTabListChanged() {
       browser.contextMenus.create({
         id: "BA:" + tab.sessionId,
         title: tab.title,
-        icons: {18: tab.favIconUrl},
+        icons: {18: tab.favIconUrl || "icons/no-favicon.svg"},
         contexts: ["browser_action"]
       });
     });
@@ -154,7 +154,7 @@ async function ClosedTabListChanged() {
       browser.contextMenus.create({
         id: "BA:" + tab.sessionId,
         title: tab.title,
-        icons: {18: tab.favIconUrl},
+        icons: {18: tab.favIconUrl || "icons/no-favicon.svg"},
         contexts: ["browser_action"],
         parentId: moreMenu
       });

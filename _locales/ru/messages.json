@@ -12,7 +12,12 @@
     "more_entries_menu": {
         "message": "Больше записей",
         "description": "Last menu on Context menus of the browser action, as the top-level menu cannot exceed 6 items.",
-        "hash": "2faee14e6cb6b941b08d3a1eea098a8e"
+        "hash": "7bebf8ccc20f23b1faccdca5629a9d1a"
+    },
+    "clearlist_menuitem": {
+        "message": "Очистить список",
+        "description": "Label for the menuitem for clearing the list of closed tabs",
+        "hash": "17927f5c3d0eab2022d1a91b106b48c0"
     },
     "page_contextmenu_submenu": {
         "message": "Список закрытых вкладок",
@@ -41,6 +46,11 @@
         "message": "Только список вкладок, которые были закрыты в текущем окне",
         "description": "Label on checkbox for filtering menu items to current window",
         "hash": "ff97d8d8b39692e9b010ebe354777c89"
+    },
+    "menuitem_clearlist_label": {
+        "message": "Показать пункт меню для очистки списка закрытых вкладок",
+        "description": "Label on checkbox for enabling the 'Clear List' menu item",
+        "hash": "428404052dc9c9462e0ec760aa91912a"
     },
     "menus_headline": {
         "message": "Дополнительное меню",
