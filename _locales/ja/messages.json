@@ -1,0 +1,62 @@
+{
+  "extensionName": {
+    "message": "Undo Close Tab",
+    "description": "Name of the extension. Also used for the toolbar button tooltip and for the page/tab context menu item for direct tab restore."
+  },
+  "extensionDescription": {
+    "message": "最後に閉じたタブを再度開きます。",
+    "description": "Description of the extension."
+  },
+  "more_entries_menu": {
+    "message": "その他のエントリー",
+    "description": "Last menu on Context menus of the browser action, as the top-level menu cannot exceed 6 items."
+  },
+  "clearlist_menuitem": {
+    "message": "リストをクリアする",
+    "description": "閉じたタブのリストをクリアするためのメニューアイテムのラベル"
+  },
+  "page_contextmenu_submenu": {
+    "message": "Undo Close Tab",
+    "description": "The label used for the submenu added to the page/tab context menu (the one with the recently closed tab list). Please use the same string as in 'extensionName' whenever possible!"
+  },
+  "contextmenus_headline": {
+    "message": "コンテキストメニュー",
+    "description": "Headline for context menu options in options page"
+  },
+  "menuitem_number_label": {
+    "message": "閉じたタブメニューに表示されるアイテムの数:",
+    "description": "Closed tabs number on context menu items."
+  },
+  "numberText_title": {
+    "message": "コンテキストメニューの閉じたタブ番号、範囲は 1 - $1",
+    "description": "tooltip on number input box.",
+    "placeholders": {
+      "maxResults": { "content": "$1", "example": "25" }
+    }
+  },
+  "onlycurrent_label": {
+    "message": "現在のウィンドウで閉じられたタブのみをリストする",
+    "description": "Label on checkbox for filtering menu items to current window"
+  },
+  "menuitem_clearlist_label": {
+    "message": "最後に閉じたタブリストをクリアするためのメニュー項目を表示する",
+    "description": "Label on checkbox for enabling the 'Clear List' menu item"
+  },
+  "menus_headline": {
+    "message": "追加メニュー",
+    "description": "Headline for additional menu checkboxes in options page"
+  },
+  "menu_tab_label": {
+    "message": "「タブバー」コンテキストメニューのサブメニュー",
+    "description": "Label on checkbox to enable submenu in tab bar context menu"
+  },
+  "menu_page_label": {
+    "message": "「ページ」コンテキストメニューのサブメニュー",
+    "description": "Label on checkbox to enable submenu in page context menu"
+  },
+  "menuitem_page_label": {
+    "message": "「ページ」コンテキストメニューのメニュー項目",
+    "description": "Label on checkbox to enable menuitem in page context menu"
+  },
+  "__WET_LOCALE__": { "message": "ja" }
+}
