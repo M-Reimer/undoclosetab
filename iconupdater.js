@@ -64,8 +64,14 @@ const IconUpdater = {
       ctx.drawImage(img, 0, 0);
       const imageData = ctx.getImageData(0, 0, size, size);
       const data = {imageData: {}};
-      data.imageData[size] = imageData
-      browser.browserAction.setIcon(data);
+      data.imageData[size] = imageData;
+      browser.runtime.getBrowserInfo().then((info) => {
+        // details.windowId came with Firefox 62
+        // Adding it for older versions triggers an exception
+        if (parseInt(info.version) >= 62)
+          data.windowId = updateInfo.windowId;
+        browser.browserAction.setIcon(data);
+      });
     }
     img.src = svgdataurl;
   },
@@ -79,10 +85,13 @@ const IconUpdater = {
     // Register to "onUpdated" event, so we know when theme colors change.
     browser.theme.onUpdated.addListener(this.ThemeUpdated.bind(this));
 
-    // Initial loading would actually be much more complicated as every window
-    // could have its own theme. For now we just assume there is a global theme.
-    browser.theme.getCurrent().then((themeInfo) => {
-      this.ThemeUpdated({theme: themeInfo, windowId: null});
+    // Initial loading: Every window could have its own theme
+    browser.windows.getAll().then((aWindows) => {
+      aWindows.forEach((aWindow) => {
+        browser.theme.getCurrent(aWindow.id).then((themeInfo) => {
+          this.ThemeUpdated({theme: themeInfo, windowId: aWindow.id});
+        });
+      });
     });
   }
 };
