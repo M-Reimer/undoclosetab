@@ -193,14 +193,67 @@ async function ContextMenuClicked(aInfo) {
     browser.windows.update(session.tab.windowId, {focused: true});
 }
 
+//
+// Android HACKS follow.
+// This is no proper replacement for the missing browser.sessions API in
+// Firefox for Android but it at least is *something*...
+//
 
+// Mozilla doesn't make it too simple for us.
+// The problem is that if a tab is closed, the info is already gone.
+// So we have to create our own tab info cache.
+
+// This one manages our "cache"
+let tabcache = {};
+function TabUpdated(aTabId, aChangeInfo) {
+  if (aChangeInfo.url !== undefined)
+    tabcache[aTabId] = aChangeInfo.url;
+}
+
+// This one moves the cached URL over to the tab history list
+let tabhistory = [];
+function TabClosed(aTabId) {
+  if (aTabId in tabcache) {
+    tabhistory.push(tabcache[aTabId]);
+    delete tabcache[aTabId];
+  }
+  while (tabhistory.length > 25)
+    tabhistory.shift();
+}
+
+// And finally: This one pops the last URL from the tab history list and
+// creates a new tab with it.
+function AndroidToolbarButtonClicked() {
+  if (tabhistory.length > 0) {
+    const url = tabhistory.pop();
+    browser.tabs.create({url: url});
+  }
+}
+
+//
 // Register event listeners
-browser.browserAction.onClicked.addListener(ToolbarButtonClicked);
+//
 
-browser.sessions.onChanged.addListener(ClosedTabListChanged);
-browser.windows.onFocusChanged.addListener(WindowFocusChanged);
-ClosedTabListChanged();
+// Check for the API we expect for the "full desktop feature set"
+// This needs revision as soon as there is some Android browser with
+// browser.sessions support.
+if (browser.contextMenus !== undefined &&
+    browser.windows !== undefined &&
+    browser.sessions !== undefined) {
+  browser.browserAction.onClicked.addListener(ToolbarButtonClicked);
 
-browser.contextMenus.onClicked.addListener(ContextMenuClicked);
+  browser.windows.onFocusChanged.addListener(WindowFocusChanged);
+  browser.sessions.onChanged.addListener(ClosedTabListChanged);
+  ClosedTabListChanged();
+
+  browser.contextMenus.onClicked.addListener(ContextMenuClicked);
+}
+// We did not get the API we need for full features but it is possible to do
+// some "session management emulation" with the browser.tabs API.
+else if (browser.tabs !== undefined) {
+  browser.browserAction.onClicked.addListener(AndroidToolbarButtonClicked);
+  browser.tabs.onRemoved.addListener(TabClosed);
+  browser.tabs.onUpdated.addListener(TabUpdated);
+}
 
 IconUpdater.Init("icons/undoclosetab.svg");
