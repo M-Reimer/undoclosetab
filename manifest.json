@@ -8,7 +8,7 @@
   "applications": {
     "gecko": {
       "id": "{4853d046-c5a3-436b-bc36-220fd935ee1d}",
-      "strict_min_version": "58.0"
+      "strict_min_version": "60.0"
     }
   },
 
@@ -19,7 +19,12 @@
   },
 
   "background": {
-    "scripts": ["iconupdater.js", "storage.js", "background.js"]
+    "scripts": [
+      "iconupdater.js",
+      "storage.js",
+      "tabhandling.js",
+      "background.js"
+    ]
   },
 
   "browser_action": {
@@ -39,7 +44,7 @@
   },
 
   "permissions": [
-    "contextMenus",
+    "menus",
     "tabs",
     "sessions",
     "storage",

@@ -5,6 +5,7 @@
 
 FILES = manifest.json \
         storage.js \
+        tabhandling.js \
         background.js \
         iconupdater.js \
         options.html \

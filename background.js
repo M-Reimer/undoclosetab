@@ -17,58 +17,36 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-// Function to do all this "Promise" stuff required by the WebExtensions API.
-// Finally returns a Promise which will be resolved with a list of closed tabs.
-async function GetLastClosedTabs(aMaxResults, aOnlyCurrent) {
-  try {
-    const currentWindow = await browser.windows.getCurrent();
-    const sessions = await browser.sessions.getRecentlyClosed();
-    let tabs = sessions.filter((s) => (s.tab && (!aOnlyCurrent || s.tab.windowId === currentWindow.id)));
-    if (aMaxResults && tabs.length > aMaxResults)
-      tabs = tabs.splice(0, aMaxResults);
-    tabs.forEach((o, i, a) => {a[i] = a[i].tab});
-    return tabs;
-  } catch (error) {
-    // Simple error handler. Just logs the error to console.
-    console.log(error);
-  }
-}
-
-
 // Fired if the toolbar button is clicked.
 // Restores the last closed tab in list.
 async function ToolbarButtonClicked() {
-  const tabs = await GetLastClosedTabs(false, true);
+  const tabs = await TabHandling.GetLastClosedTabs(false, true);
   if (tabs.length > 0)
-    await browser.sessions.restore(tabs[0].sessionId);
-}
-
-// Fired if the window focus changed. This function acts as a filter.
-// The unfiltered calls get forwarded to "ClosedTabListChanged()".
-function WindowFocusChanged(aWindowId) {
-  // We aren't interested in "unfocus" events
-  if (aWindowId == browser.windows.WINDOW_ID_NONE)
-    return;
-
-  // We are only interested in real window switches. No double calls!
-  if (typeof WindowFocusChanged.lastwindow == 'undefined')
-    WindowFocusChanged.lastwindow = browser.windows.WINDOW_ID_NONE;
-  if (aWindowId == WindowFocusChanged.lastwindow)
-    return;
-  WindowFocusChanged.lastwindow = aWindowId;
-
-  // Finally continue in "ClosedTabListChanged()"
-  ClosedTabListChanged();
+    TabHandling.Restore(tabs[0].sessionId);
 }
 
 // Fired if the list of closed tabs has changed.
 // Updates the context menu entries with the list of last closed tabs.
-async function ClosedTabListChanged() {
-  await browser.contextMenus.removeAll();
-  const prefs = await Storage.get();
+var lastMenuInstanceId = 0;
+var nextMenuInstanceId = 1;
+async function OnMenuShown() {
+  var menuInstanceId = nextMenuInstanceId++;
+  lastMenuInstanceId = menuInstanceId;
 
-  const tabs = await GetLastClosedTabs(prefs.showNumber, prefs.onlyCurrent);
-  const max_allowed = browser.contextMenus.ACTION_MENU_TOP_LEVEL_LIMIT - (prefs.showClearList ? 1 : 0);
+  const prefs = await Storage.get();
+  const tabs = await TabHandling.GetLastClosedTabs(prefs.showNumber, prefs.onlyCurrent);
+
+  // This is how Mozilla describes how to prevent race conditions. The above two
+  // are our "asynchronous" calls.
+  if (menuInstanceId !== lastMenuInstanceId) {
+    return; // Menu was closed and shown again.
+  }
+
+  // How many items are allowed on the top level?
+  const max_allowed = browser.menus.ACTION_MENU_TOP_LEVEL_LIMIT - (prefs.showClearList ? 1 : 0);
+
+  // Start with a completely empty menu
+  browser.menus.removeAll();
 
   // This block is for creating the "page" or "tab" context menus.
   // They are only drawn if at least one tab can be restored.
@@ -79,14 +57,14 @@ async function ClosedTabListChanged() {
     if (prefs.showPageMenu)
       contexts.push("page");
 
-    let rootmenu = browser.contextMenus.create({
+    let rootmenu = browser.menus.create({
       id: "RootMenu",
       title: browser.i18n.getMessage("page_contextmenu_submenu"),
       contexts: contexts
     });
 
     tabs.forEach((tab) => {
-      browser.contextMenus.create({
+      browser.menus.create({
         id: "PM:" + tab.sessionId,
         title: tab.title,
         icons: {18: tab.favIconUrl || "icons/no-favicon.svg"},
@@ -96,13 +74,13 @@ async function ClosedTabListChanged() {
     });
 
     if (prefs.showClearList) {
-      browser.contextMenus.create({
+      browser.menus.create({
         id: "ClearListSeparator",
         type: "separator",
         contexts: contexts,
         parentId: rootmenu
       });
-      browser.contextMenus.create({
+      browser.menus.create({
         id: "PM:ClearList",
         title: browser.i18n.getMessage("clearlist_menuitem"),
         contexts: contexts,
@@ -112,7 +90,7 @@ async function ClosedTabListChanged() {
   }
 
   if (prefs.showPageMenuitem) {
-    browser.contextMenus.create({
+    browser.menus.create({
       id: "UndoCloseTab",
       title: browser.i18n.getMessage("extensionName"),
       contexts: ["page"]
@@ -123,7 +101,7 @@ async function ClosedTabListChanged() {
   // no "More items" menu is needed.
   if (tabs.length <= max_allowed) {
     tabs.forEach((tab) => {
-      browser.contextMenus.create({
+      browser.menus.create({
         id: "BA:" + tab.sessionId,
         title: tab.title,
         icons: {18: tab.favIconUrl || "icons/no-favicon.svg"},
@@ -135,7 +113,7 @@ async function ClosedTabListChanged() {
   // and place the rest of them into a submenu.
   else {
     tabs.splice(0, max_allowed - 1).forEach((tab) => {
-      browser.contextMenus.create({
+      browser.menus.create({
         id: "BA:" + tab.sessionId,
         title: tab.title,
         icons: {18: tab.favIconUrl || "icons/no-favicon.svg"},
@@ -143,7 +121,7 @@ async function ClosedTabListChanged() {
       });
     });
 
-    let moreMenu = browser.contextMenus.create({
+    let moreMenu = browser.menus.create({
       id: "MoreClosedTabs",
       title: browser.i18n.getMessage("more_entries_menu"),
       icons: {18: "icons/folder.svg"},
@@ -151,7 +129,7 @@ async function ClosedTabListChanged() {
     });
 
     tabs.forEach((tab) => {
-      browser.contextMenus.create({
+      browser.menus.create({
         id: "BA:" + tab.sessionId,
         title: tab.title,
         icons: {18: tab.favIconUrl || "icons/no-favicon.svg"},
@@ -162,12 +140,14 @@ async function ClosedTabListChanged() {
   }
 
   if (tabs.length && prefs.showClearList) {
-    browser.contextMenus.create({
+    browser.menus.create({
       id: "BA:ClearList",
       title: browser.i18n.getMessage("clearlist_menuitem"),
       contexts: ["browser_action"],
     });
   }
+
+  browser.menus.refresh();
 }
 
 // Fired if one of our context menu entries is clicked.
@@ -179,56 +159,18 @@ async function ContextMenuClicked(aInfo) {
   }
   if (aInfo.menuItemId.endsWith("ClearList")) {
     const prefs = await Storage.get();
-    const tabs = await GetLastClosedTabs(false, prefs.onlyCurrent);
-    tabs.forEach((tab) => {
-      browser.sessions.forgetClosedTab(tab.windowId, tab.sessionId);
-    });
+    TabHandling.ClearList(prefs.onlyCurrent);
     return;
   }
 
   const sessionid = aInfo.menuItemId.substring(aInfo.menuItemId.indexOf(":") + 1);
-  const session = await browser.sessions.restore(sessionid);
+  const tab = await TabHandling.Restore(sessionid);
   const currentWindow = await browser.windows.getCurrent();
-  if (session.tab.windowId != currentWindow.id)
-    browser.windows.update(session.tab.windowId, {focused: true});
+  if (tab.windowId != currentWindow.id)
+    browser.windows.update(tab.windowId, {focused: true});
 }
 
-//
-// Android HACKS follow.
-// This is no proper replacement for the missing browser.sessions API in
-// Firefox for Android but it at least is *something*...
-//
-
-// Mozilla doesn't make it too simple for us.
-// The problem is that if a tab is closed, the info is already gone.
-// So we have to create our own tab info cache.
-
-// This one manages our "cache"
-let tabcache = {};
-function TabUpdated(aTabId, aChangeInfo) {
-  if (aChangeInfo.url !== undefined)
-    tabcache[aTabId] = aChangeInfo.url;
-}
-
-// This one moves the cached URL over to the tab history list
-let tabhistory = [];
-function TabClosed(aTabId) {
-  if (aTabId in tabcache) {
-    tabhistory.push(tabcache[aTabId]);
-    delete tabcache[aTabId];
-  }
-  while (tabhistory.length > 25)
-    tabhistory.shift();
-}
-
-// And finally: This one pops the last URL from the tab history list and
-// creates a new tab with it.
-function AndroidToolbarButtonClicked() {
-  if (tabhistory.length > 0) {
-    const url = tabhistory.pop();
-    browser.tabs.create({url: url});
-  }
-}
+TabHandling.Init();
 
 //
 // Register event listeners
@@ -237,23 +179,14 @@ function AndroidToolbarButtonClicked() {
 // Check for the API we expect for the "full desktop feature set"
 // This needs revision as soon as there is some Android browser with
 // browser.sessions support.
-if (browser.contextMenus !== undefined &&
+if (browser.menus !== undefined &&
     browser.windows !== undefined &&
     browser.sessions !== undefined) {
-  browser.browserAction.onClicked.addListener(ToolbarButtonClicked);
 
-  browser.windows.onFocusChanged.addListener(WindowFocusChanged);
-  browser.sessions.onChanged.addListener(ClosedTabListChanged);
-  ClosedTabListChanged();
+  browser.menus.onShown.addListener(OnMenuShown);
+  browser.menus.onClicked.addListener(ContextMenuClicked);
+}
 
-  browser.contextMenus.onClicked.addListener(ContextMenuClicked);
-}
-// We did not get the API we need for full features but it is possible to do
-// some "session management emulation" with the browser.tabs API.
-else if (browser.tabs !== undefined) {
-  browser.browserAction.onClicked.addListener(AndroidToolbarButtonClicked);
-  browser.tabs.onRemoved.addListener(TabClosed);
-  browser.tabs.onUpdated.addListener(TabUpdated);
-}
+browser.browserAction.onClicked.addListener(ToolbarButtonClicked);
 
 IconUpdater.Init("icons/undoclosetab.svg");
