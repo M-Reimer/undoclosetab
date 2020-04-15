@@ -101,7 +101,6 @@ const TabHandling = {
       const tab = this._internallist[index];
       this._internallist.splice(index, 1);
       browser.tabs.create({url: tab.url});
-      this._OnSessionsChanged();
       return tab;
     }
     // This tab is stored in the browser session manager
