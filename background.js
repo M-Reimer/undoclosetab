@@ -164,10 +164,7 @@ async function ContextMenuClicked(aInfo) {
   }
 
   const sessionid = aInfo.menuItemId.substring(aInfo.menuItemId.indexOf(":") + 1);
-  const tab = await TabHandling.Restore(sessionid);
-  const currentWindow = await browser.windows.getCurrent();
-  if (tab.windowId != currentWindow.id)
-    browser.windows.update(tab.windowId, {focused: true});
+  TabHandling.Restore(sessionid);
 }
 
 TabHandling.Init();

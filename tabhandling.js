@@ -39,7 +39,7 @@ const TabHandling = {
     // to tabs from the current window
     if (aOnlyCurrent && browser.windows !== undefined) {
       const currentWindow = await browser.windows.getCurrent();
-      tabs = tabs.filter((tab) => { return tab.windowId === currentWindow.id});
+      tabs = tabs.filter((tab) => { return tab.windowId === undefined || tab.windowId === currentWindow.id});
     }
 
     // If requested, limit the return list to the given amount of entries
@@ -91,22 +91,27 @@ const TabHandling = {
   },
 
   Restore: async function(aSessionId) {
-    // If this a tab stored in our internal list
+    // This tab is stored in our internal list. These tabs have no window
+    // associated with them, so just create a new tab in the current window.
     if (aSessionId.startsWith(this.INT_SESSION_PREFIX)) {
       const index = this._internallist.findIndex((tab) => {
         return tab.sessionId === aSessionId;
       });
+
       if (index === -1)
         return;
-      const tab = this._internallist[index];
-      this._internallist.splice(index, 1);
+
+      const [tab] = this._internallist.splice(index, 1);
       browser.tabs.create({url: tab.url});
-      return tab;
     }
-    // This tab is stored in the browser session manager
+    // This tab is stored in the browser session manager. So ask the session
+    // manager for a restore and focus the window where we restored.
     else {
       const session = await browser.sessions.restore(aSessionId);
-      return session.tab;
+
+      const currentWindow = await browser.windows.getCurrent();
+      if (session.tab.windowId != currentWindow.id)
+        browser.windows.update(session.tab.windowId, {focused: true});
     }
   },
 
@@ -145,7 +150,6 @@ const TabHandling = {
       if (tab.url.startsWith("http"))
         this._internallist.push({
           sessionId: this.INT_SESSION_PREFIX + String(this._internallist.length + 1),
-          windowId: tab.windowId,
           title: tab.title,
           favIconUrl: tab.favIconUrl,
           url: tab.url
@@ -155,14 +159,12 @@ const TabHandling = {
     // Now purge the whole session history (tabs **and** windows to really
     // reset the internal session counter to zero).
     const sessions = await browser.sessions.getRecentlyClosed();
-    const promises = [];
     sessions.forEach((s) => {
       if (s.tab)
-        promises.push(browser.sessions.forgetClosedTab(s.tab.windowId, s.tab.sessionId));
+        browser.sessions.forgetClosedTab(s.tab.windowId, s.tab.sessionId);
       else
-        promises.push(browser.sessions.forgetClosedWindow(s.window.sessionId));
+        browser.sessions.forgetClosedWindow(s.window.sessionId);
     });
-    await Promise.all(promises);
   },
 
   Init: function() {
