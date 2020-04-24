@@ -46,7 +46,7 @@ const TabHandling = {
     if (aMaxResults && tabs.length > aMaxResults)
       tabs = tabs.splice(0, aMaxResults);
 
-    console.log("tabs", tabs);
+//    console.log("tabs", tabs);
 
     // Finally return the tab list
     return tabs;
@@ -125,14 +125,14 @@ const TabHandling = {
   },
   _onTabClosed: function(aTabId) {
     if (aTabId in this._tabcache) {
-      this._internallist.push({
+      this._internallist.unshift({
         url: this._tabcache[aTabId],
         sessionId: this.INT_SESSION_PREFIX + String(++this._sessioncounter)
       });
       delete this._tabcache[aTabId];
     }
     while (this._internallist.length > 25)
-      this._internallist.shift();
+      this._internallist.pop();
   },
 
   // Workaround of https://bugzil.la/1538119
@@ -142,11 +142,9 @@ const TabHandling = {
   _Bug1538119Workaround: async function() {
     // Get the current list of last closed tabs
     const lastsession = await this._SessionsGetLastClosedTabs();
-    console.log("lastsession", lastsession);
 
     // Place them all to our internal list
     lastsession.forEach((tab) => {
-      console.log("tab", tab);
       if (tab.url.startsWith("http"))
         this._internallist.push({
           sessionId: this.INT_SESSION_PREFIX + String(this._internallist.length + 1),
