@@ -17,7 +17,6 @@ async function numberChanged(e) {
   });
 
   numberText.value = showNumber;
-  browser.extension.getBackgroundPage().ClosedTabListChanged();
 }
 
 async function checkboxChanged(e) {
@@ -52,7 +51,6 @@ async function checkboxChanged(e) {
     });
     break;
   }
-  browser.extension.getBackgroundPage().ClosedTabListChanged();
 }
 
 function init() {
