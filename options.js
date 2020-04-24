@@ -57,7 +57,7 @@ async function checkboxChanged(e) {
 
 function init() {
   // Android handling. For now just hide the whole configuration UI.
-  if (browser.contextMenus === undefined ||
+  if (browser.menus === undefined ||
       browser.windows === undefined ||
       browser.sessions === undefined) {
     document.body.style.display = "none";
