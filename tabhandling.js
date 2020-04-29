@@ -15,6 +15,7 @@
     You should have received a copy of the GNU General Public License
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
+"use strict";
 
 // Abstraction layer for the handling of closed tabs. Handles bug workarounds
 // and Android support.
@@ -46,8 +47,6 @@ const TabHandling = {
     if (aMaxResults && tabs.length > aMaxResults)
       tabs = tabs.splice(0, aMaxResults);
 
-//    console.log("tabs", tabs);
-
     // Finally return the tab list
     return tabs;
   },
@@ -56,12 +55,12 @@ const TabHandling = {
   _SessionsGetLastClosedTabs: async function () {
     // Return empty list if there is no "sessions" API (Android)
     if (browser.sessions === undefined)
-      return []
+      return [];
 
     // Filter the saved closed items to only contain tabs, then strip off the
     // "session" object (we only need the actual tabs)
     const sessions = await browser.sessions.getRecentlyClosed();
-    tabs = sessions.filter(s => s.tab);
+    const tabs = sessions.filter(s => s.tab);
     tabs.forEach((o, i, a) => {a[i] = a[i].tab});
 
     // Finally return the tab list
@@ -79,11 +78,12 @@ const TabHandling = {
       return;
 
     // Prefilter the tab list and remove the resulting tabs
-    const currentWindow = await browser.windows.getCurrent();
     let tabs = await this._SessionsGetLastClosedTabs();
-    if (aOnlyCurrent)
+    if (aOnlyCurrent) {
+      const currentWindow = await browser.windows.getCurrent();
       tabs = tabs.filter(t => t.windowId === currentWindow.id);
-    const promises = []
+    }
+    const promises = [];
     tabs.forEach((tab) => {
       promises.push(browser.sessions.forgetClosedTab(tab.windowId, tab.sessionId));
     });
