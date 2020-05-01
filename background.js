@@ -16,6 +16,7 @@
     You should have received a copy of the GNU General Public License
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
+"use strict";
 
 // Fired if the toolbar button is clicked.
 // Restores the last closed tab in list.

@@ -1,3 +1,5 @@
+"use strict";
+
 const numberText = document.querySelector("#number_inputbox");
 const checkPage = document.querySelector("#menu_page_checkbox");
 const checkPageMenuitem = document.querySelector("#menuitem_page_checkbox");

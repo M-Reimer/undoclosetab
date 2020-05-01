@@ -15,6 +15,7 @@
     You should have received a copy of the GNU General Public License
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
+"use strict";
 
 // Central place for storage handling and preference defaults
 const Storage = {
