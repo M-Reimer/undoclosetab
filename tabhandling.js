@@ -57,11 +57,16 @@ const TabHandling = {
     if (browser.sessions === undefined)
       return [];
 
-    // Filter the saved closed items to only contain tabs, then strip off the
-    // "session" object (we only need the actual tabs)
+    // Filter the saved closed items to only contain tabs
     const sessions = await browser.sessions.getRecentlyClosed();
     const tabs = sessions.filter(s => s.tab);
-    tabs.forEach((o, i, a) => {a[i] = a[i].tab});
+
+    // Now remove the additional "tab" object, we have to walk through,
+    // (don't need that) after backing up the session lastModified.
+    tabs.forEach((o, i, a) => {
+      a[i].tab._tabCloseTime = a[i].lastModified;
+      a[i] = a[i].tab
+    });
 
     // Finally return the tab list
     return tabs;

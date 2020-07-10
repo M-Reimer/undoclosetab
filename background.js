@@ -1,6 +1,6 @@
 /*
     Firefox addon "Undo Close Tab"
-    Copyright (C) 2019  Manuel Reimer <manuel.reimer@gmx.de>
+    Copyright (C) 2020  Manuel Reimer <manuel.reimer@gmx.de>
     Copyright (C) 2017  YFdyh000 <yfdyh000@gmail.com>
 
     This program is free software: you can redistribute it and/or modify
@@ -18,12 +18,35 @@
 */
 "use strict";
 
+// Maximum time between tab closes for handling them as a "closed group"
+const GROUP_TIME_MS = 150;
+
+
 // Fired if the toolbar button is clicked.
 // Restores the last closed tab in list.
 async function ToolbarButtonClicked() {
+  // Get list of closed tabs and exit if there are none
   const tabs = await TabHandling.GetLastClosedTabs(false, true);
-  if (tabs.length > 0)
-    TabHandling.Restore(tabs[0].sessionId);
+  if (!tabs.length)
+    return;
+
+  // Always restore the most recently closed tab
+  TabHandling.Restore(tabs[0].sessionId);
+
+  // Next, run over the tabs and also restore all tabs closed "with the last
+  // closed one" (to mass-restore "close to the right" or "close others")
+  if (tabs[0]._tabCloseTime) {
+    for (let ti = 1; ti < tabs.length; ti++) {
+      if (!tabs[ti]._tabCloseTime)
+        break;
+
+      console.log(tabs[ti-1]._tabCloseTime - tabs[ti]._tabCloseTime);
+      if (tabs[ti - 1]._tabCloseTime - tabs[ti]._tabCloseTime <= GROUP_TIME_MS)
+        TabHandling.Restore(tabs[ti].sessionId);
+      else
+        break;
+    }
+  }
 }
 
 // Fired if the list of closed tabs has changed.
