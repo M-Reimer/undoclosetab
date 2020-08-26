@@ -1,11 +1,11 @@
 "use strict";
 
 const numberText = document.querySelector("#number_inputbox");
-const checkPage = document.querySelector("#menu_page_checkbox");
-const checkPageMenuitem = document.querySelector("#menuitem_page_checkbox");
-const checkTab = document.querySelector("#menu_tab_checkbox");
-const checkOnlyCurrent = document.querySelector("#onlycurrent_checkbox");
-const checkClearList = document.getElementById("menuitem_clearlist_checkbox");
+const checkPage = document.querySelector("#showPageMenu_checkbox");
+const checkPageMenuitem = document.querySelector("#showPageMenuitem_checkbox");
+const checkTab = document.querySelector("#showTabMenu_checkbox");
+const checkOnlyCurrent = document.querySelector("#onlyCurrent_checkbox");
+const checkClearList = document.getElementById("showClearList_checkbox");
 
 async function numberChanged(e) {
   let showNumber = parseInt(numberText.value);
@@ -22,37 +22,25 @@ async function numberChanged(e) {
 }
 
 async function checkboxChanged(e) {
+  if (!e.target.id.match(/([a-zA-Z_]+)_checkbox/))
+    return;
+
+  const pref = RegExp.$1;
+  const params = {};
+  params[pref] = e.target.checked;
+
   switch (e.target.id) {
-  case "menu_tab_checkbox":
-    await Storage.set({
-      showTabMenu: checkTab.checked
-    });
-    break;
-  case "menu_page_checkbox":
-    await Storage.set({
-      showPageMenu: checkPage.checked,
-      showPageMenuitem: false
-    });
+  case checkPage.id:
+    params["showPageMenuitem"] = false;
     checkPageMenuitem.checked = false;
     break;
-  case "menuitem_page_checkbox":
-    await Storage.set({
-      showPageMenu: false,
-      showPageMenuitem: checkPageMenuitem.checked
-    });
+  case checkPageMenuitem.id:
+    params["showPageMenu"] = false;
     checkPage.checked = false;
     break;
-  case "onlycurrent_checkbox":
-    await Storage.set({
-      onlyCurrent: checkOnlyCurrent.checked
-    });
-    break;
-  case checkClearList.id:
-    await Storage.set({
-      showClearList: checkClearList.checked
-    });
-    break;
   }
+
+  await Storage.set(params);
 }
 
 function init() {
