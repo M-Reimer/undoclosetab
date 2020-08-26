@@ -1,6 +1,6 @@
 /*
     Firefox addon "Undo Close Tab"
-    Copyright (C) 2019  Manuel Reimer <manuel.reimer@gmx.de>
+    Copyright (C) 2020  Manuel Reimer <manuel.reimer@gmx.de>
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -25,7 +25,9 @@ const Storage = {
     "showPageMenu": false,
     "showPageMenuitem": false,
     "onlyCurrent": true,
-    "showClearList": false
+    "showClearList": false,
+    "restoreGroup": false,
+    "groupTime": 500
   },
 
   get: async function() {

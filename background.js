@@ -18,9 +18,6 @@
 */
 "use strict";
 
-// Maximum time between tab closes for handling them as a "closed group"
-const GROUP_TIME_MS = 150;
-
 
 // Fired if the toolbar button is clicked.
 // Restores the last closed tab in list.
@@ -35,13 +32,13 @@ async function ToolbarButtonClicked() {
 
   // Next, run over the tabs and also restore all tabs closed "with the last
   // closed one" (to mass-restore "close to the right" or "close others")
-  if (tabs[0]._tabCloseTime) {
+  const prefs = await Storage.get();
+  if (prefs.restoreGroup && tabs[0]._tabCloseTime) {
     for (let ti = 1; ti < tabs.length; ti++) {
       if (!tabs[ti]._tabCloseTime)
         break;
 
-      console.log(tabs[ti-1]._tabCloseTime - tabs[ti]._tabCloseTime);
-      if (tabs[ti - 1]._tabCloseTime - tabs[ti]._tabCloseTime <= GROUP_TIME_MS)
+      if (tabs[ti - 1]._tabCloseTime - tabs[ti]._tabCloseTime < prefs.groupTime)
         TabHandling.Restore(tabs[ti].sessionId);
       else
         break;

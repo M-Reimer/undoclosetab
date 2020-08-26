@@ -5,9 +5,17 @@
   </head>
   <body>
     <form>
+      <h1 id="general_headline">General</h1>
+      <input type="checkbox" id="restoreGroup_checkbox" style="vertical-align: center"/>
+      <span style="max-width: 90%; display: inline-block">
+      <label for="restoreGroup_checkbox" id="restoreGroup_label">Restore tabs as group if the time between their closes is below</label>
+      <input type="number" id="groupTime_inputbox" min="1" max="2000" value="500" style="width: 5em"/>
+      <label for="groupTime_inputbox" id="groupTime_unit">ms</label>
+      </span>
+
       <h1 id="contextmenus_headline">Context menus</h1>
-      <label for="number_inputbox" id="menuitem_number_label">Number of shown on closed tabs menu:</label>
-      <input type="number" id="number_inputbox" min="1" style="width: 6em"/>
+      <label for="showNumber_inputbox" id="menuitem_number_label">Number of shown on closed tabs menu:</label>
+      <input type="number" id="showNumber_inputbox" min="1" style="width: 5em"/>
       <br/>
       <input type="checkbox" id="onlyCurrent_checkbox"/>
       <label for="onlyCurrent_checkbox" id="onlycurrent_label">Only list tabs that were closed in the current window</label>
