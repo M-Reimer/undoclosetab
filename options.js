@@ -62,6 +62,8 @@ function init() {
   }
 
   [
+    "general_headline",
+    "restoreGroup_label",
     "contextmenus_headline",
     "menuitem_number_label",
     "onlycurrent_label",

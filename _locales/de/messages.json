@@ -23,6 +23,16 @@
     "description": "The label used for the submenu added to the page/tab context menu (the one with the recently closed tab list). Please use the same string as in 'extensionName' whenever possible!"
   },
 
+
+  "general_headline": {
+    "message": "Allgemein",
+    "description": "Headline for general options in options page"
+  },
+  "restoreGroup_label": {
+    "message": "Tabs als Gruppe wiederherstellen wenn die Zeit zwischen deren Schließen geringer ist als",
+    "description": "Label on checkbox for restoring tab groups based on time between tab closes"
+  },
+
   "contextmenus_headline": {
     "message": "Kontextmenüs",
     "description": "Headline for context menu options in options page"
