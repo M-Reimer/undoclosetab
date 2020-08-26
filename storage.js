@@ -27,7 +27,7 @@ const Storage = {
     "onlyCurrent": true,
     "showClearList": false,
     "restoreGroup": false,
-    "groupTime": 500
+    "groupTime": 200
   },
 
   get: async function() {
