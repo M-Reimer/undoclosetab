@@ -24,6 +24,16 @@
     "description": "The label used for the submenu added to the page/tab context menu (the one with the recently closed tab list). Please use the same string as in 'extensionName' whenever possible!",
     "hash": "64c3b70943ee77066e4d90550f73fe60"
   },
+  "general_headline": {
+    "message": "Generelt",
+    "description": "Headline for general options in options page",
+    "hash": "e90d858c95232c95e34b4bb2f25b69e4"
+  },
+  "restoreGroup_label": {
+    "message": "Genåbn faner som gruppe, hvis tiden melem lukninger er mindre end",
+    "description": "Label on checkbox for restoring tab groups based on time between tab closes",
+    "hash": "b5b3aa54e1d133c905b2f3b161361d72"
+  },
   "contextmenus_headline": {
     "message": "Genvejsmenu",
     "description": "Headline for context menu options in options page",
@@ -35,7 +45,7 @@
     "hash": "8f71ac4eebcd5ee918321c62d55fcf19"
   },
   "numberText_title": {
-    "message": "Lukkede faner der vises i genvejsmenuem, mellem 1 - $1",
+    "message": "Lukkede faner der vises i genvejsmenuen, mellem 1 - $1",
     "description": "tooltip on number input box.",
     "placeholders": {
       "maxResults": { "content": "$1", "example": "25" }
