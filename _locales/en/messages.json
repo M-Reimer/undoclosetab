@@ -28,7 +28,7 @@
     "description": "Headline for general options in options page"
   },
   "restoreGroup_label": {
-    "message": "Restore tabs as group if the time between their closes is below",
+    "message": "Restore tabs as group if the time between their closings is below",
     "description": "Label on checkbox for restoring tab groups based on time between tab closes"
   },
 
