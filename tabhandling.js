@@ -107,7 +107,7 @@ const TabHandling = {
         return;
 
       const [tab] = this._internallist.splice(index, 1);
-      browser.tabs.create({url: tab.url});
+      await browser.tabs.create({url: tab.url});
     }
     // This tab is stored in the browser session manager. So ask the session
     // manager for a restore and focus the window where we restored.

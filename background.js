@@ -21,14 +21,14 @@
 
 // Fired if the toolbar button is clicked.
 // Restores the last closed tab in list.
-async function ToolbarButtonClicked() {
+async function ToolbarButtonClicked(tab, OnClickData) {
   // Get list of closed tabs and exit if there are none
   const tabs = await TabHandling.GetLastClosedTabs(false, true);
   if (!tabs.length)
     return;
 
   // Always restore the most recently closed tab
-  TabHandling.Restore(tabs[0].sessionId);
+  await TabHandling.Restore(tabs[0].sessionId);
 
   // Next, run over the tabs and also restore all tabs closed "with the last
   // closed one" (to mass-restore "close to the right" or "close others")
@@ -39,11 +39,16 @@ async function ToolbarButtonClicked() {
         break;
 
       if (tabs[ti - 1]._tabCloseTime - tabs[ti]._tabCloseTime < prefs.groupTime)
-        TabHandling.Restore(tabs[ti].sessionId);
+        await TabHandling.Restore(tabs[ti].sessionId);
       else
         break;
     }
   }
+
+  // Allow to restore in background with middle click or shift+click on the
+  // toolbar button
+  if (OnClickData.modifiers.includes("Ctrl") || OnClickData.button == 1)
+    browser.tabs.update(tab.id, {active: true});
 }
 
 // Fired if the list of closed tabs has changed.
