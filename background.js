@@ -47,7 +47,7 @@ async function ToolbarButtonClicked(tab, OnClickData) {
 
   // Allow to restore in background with middle click or shift+click on the
   // toolbar button
-  if (OnClickData.modifiers.includes("Ctrl") || OnClickData.button == 1)
+  if (OnClickData.modifiers.includes("Shift"))
     browser.tabs.update(tab.id, {active: true});
 }
 
