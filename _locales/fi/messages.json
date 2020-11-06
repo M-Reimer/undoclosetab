@@ -58,7 +58,7 @@
     "hash": "ff97d8d8b39692e9b010ebe354777c89"
   },
   "menuitem_clearlist_label": {
-    "message": "Näytä \"Tyhjennä lista\" valikko, vällehtilistauksen alla",
+    "message": "Näytä \"Tyhjennä lista\" valikko, välilehtilistauksen alla",
     "description": "Label on checkbox for enabling the 'Clear List' menu item",
     "hash": "428404052dc9c9462e0ec760aa91912a"
   },
