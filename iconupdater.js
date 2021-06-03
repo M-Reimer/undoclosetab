@@ -62,7 +62,7 @@ const IconUpdater = {
     const img = new Image(size, size);
     img.onload = function() {
       const ctx = canvas.getContext("2d");
-      ctx.drawImage(img, 0, 0);
+      ctx.drawImage(img, 0, 0, size, size);
       const imageData = ctx.getImageData(0, 0, size, size);
       const data = {imageData: {}};
       data.imageData[size] = imageData;
