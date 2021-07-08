@@ -50,7 +50,7 @@ async function ToolbarButtonClicked(tab, OnClickData) {
     browser.tabs.update(tab.id, {active: true});
 }
 
-// Fired if the list of closed tabs has changed.
+// Fired if a menu is shown
 // Updates the context menu entries with the list of last closed tabs.
 var lastMenuInstanceId = 0;
 var nextMenuInstanceId = 1;
