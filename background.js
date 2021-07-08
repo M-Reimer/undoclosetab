@@ -50,6 +50,15 @@ async function ToolbarButtonClicked(tab, OnClickData) {
     browser.tabs.update(tab.id, {active: true});
 }
 
+// Helper function used to create menu entries based on tab properties
+function TabMenuProperties(tab, id_prefix) {
+  return {
+    id: id_prefix + ":" + tab.sessionId,
+    title: tab.title.replace(/&/g, "&&"),
+    icons: {18: tab.favIconUrl || "icons/no-favicon.svg"}
+  }
+}
+
 // Fired if a menu is shown
 // Updates the context menu entries with the list of last closed tabs.
 var lastMenuInstanceId = 0;
@@ -90,9 +99,7 @@ async function OnMenuShown() {
 
     tabs.forEach((tab) => {
       browser.menus.create({
-        id: "PM:" + tab.sessionId,
-        title: tab.title,
-        icons: {18: tab.favIconUrl || "icons/no-favicon.svg"},
+        ...TabMenuProperties(tab, "PM"),
         contexts: contexts,
         parentId: rootmenu
       });
@@ -127,9 +134,7 @@ async function OnMenuShown() {
   if (tabs.length <= max_allowed) {
     tabs.forEach((tab) => {
       browser.menus.create({
-        id: "BA:" + tab.sessionId,
-        title: tab.title,
-        icons: {18: tab.favIconUrl || "icons/no-favicon.svg"},
+        ...TabMenuProperties(tab, "BA"),
         contexts: ["browser_action"]
       });
     });
@@ -139,9 +144,7 @@ async function OnMenuShown() {
   else {
     tabs.splice(0, max_allowed - 1).forEach((tab) => {
       browser.menus.create({
-        id: "BA:" + tab.sessionId,
-        title: tab.title,
-        icons: {18: tab.favIconUrl || "icons/no-favicon.svg"},
+        ...TabMenuProperties(tab, "BA"),
         contexts: ["browser_action"]
       });
     });
@@ -155,9 +158,7 @@ async function OnMenuShown() {
 
     tabs.forEach((tab) => {
       browser.menus.create({
-        id: "BA:" + tab.sessionId,
-        title: tab.title,
-        icons: {18: tab.favIconUrl || "icons/no-favicon.svg"},
+        ...TabMenuProperties(tab, "BA"),
         contexts: ["browser_action"],
         parentId: moreMenu
       });
