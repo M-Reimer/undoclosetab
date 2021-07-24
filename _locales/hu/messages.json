@@ -1,0 +1,78 @@
+{
+  "extensionName": {
+    "message": "Lapbezárás visszavonása",
+    "description": "Name of the extension. Also used for the toolbar button tooltip and for the page/tab context menu item for direct tab restore."
+  },
+  "extensionDescription": {
+    "message": "Újranyitja az utoljára bezárt lapot.",
+    "description": "Description of the extension."
+  },
+
+  "more_entries_menu": {
+    "message": "Korábbi lapok",
+    "description": "Last menu on Context menus of the browser action, as the top-level menu cannot exceed 6 items."
+  },
+  "clearlist_menuitem": {
+    "message": "Lista törlése",
+    "description": "Label for the menuitem for clearing the list of closed tabs"
+  },
+
+  "page_contextmenu_submenu": {
+    "message": "Lapbezárás visszavonása",
+    "description": "The label used for the submenu added to the page/tab context menu (the one with the recently closed tab list). Please use the same string as in 'extensionName' whenever possible!"
+  },
+
+
+  "general_headline": {
+    "message": "Általános",
+    "description": "Headline for general options in options page"
+  },
+  "restoreGroup_label": {
+    "message": "Több lap visszaállítása egyszerre, ha a bezárásuk közötti idő kevesebb volt, mint",
+    "description": "Label on checkbox for restoring tab groups based on time between tab closes"
+  },
+
+  "contextmenus_headline": {
+    "message": "Helyi menük",
+    "description": "Headline for context menu options in options page"
+  },
+  "menuitem_number_label": {
+    "message": "Elemek száma a bezárt lapok menüben:",
+    "description": "Closed tabs number on context menu items."
+  },
+  "numberText_title": {
+    "message": "Bezárt lapok száma a helyi menüben, 1 - $1",
+    "description": "tooltip on number input box.",
+    "placeholders": {
+      "maxResults": {
+        "content": "$1",
+        "example": "25"
+      }
+    }
+  },
+  "onlycurrent_label": {
+    "message": "Csak az aktuális ablakban bezárt lapokat listázza",
+    "description": "Label on checkbox for filtering menu items to current window"
+  },
+  "menuitem_clearlist_label": {
+    "message": "Menüpont megjelenítése az utoljára bezárt lapok listájának törléséhez",
+    "description": "Label on checkbox for enabling the 'Clear List' menu item"
+  },
+
+  "menus_headline": {
+    "message": "További menük",
+    "description": "Headline for additional menu checkboxes in options page"
+  },
+  "menu_tab_label": {
+    "message": "Almenü a lap helyi menüjében",
+    "description": "Label on checkbox to enable submenu in tab bar context menu"
+  },
+  "menu_page_label": {
+    "message": "Almenü az oldal helyi menüjében",
+    "description": "Label on checkbox to enable submenu in page context menu"
+  },
+  "menuitem_page_label": {
+    "message": "Almenü az oldal helyi menüjében",
+    "description": "Label on checkbox to enable menuitem in page context menu"
+  }
+}
