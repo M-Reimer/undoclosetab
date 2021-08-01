@@ -1,6 +1,6 @@
 /*
     Firefox addon "Undo Close Tab"
-    Copyright (C) 2019  Manuel Reimer <manuel.reimer@gmx.de>
+    Copyright (C) 2021  Manuel Reimer <manuel.reimer@gmx.de>
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -19,7 +19,7 @@
 
 const IconUpdater = {
   // Fired whenever colors in browser change
-  ThemeUpdated: function ThemeUpdated(updateInfo) {
+  ThemeUpdated: async function ThemeUpdated(updateInfo) {
     const size = 32;
 
     // Theme has been reset/disabled
@@ -43,10 +43,7 @@ const IconUpdater = {
     }
 
     // Get SVG image
-    const xhr = new XMLHttpRequest();
-    xhr.open("GET", chrome.extension.getURL(this.default_image), false);
-    xhr.send();
-    let svg = xhr.responseText;
+    let svg = await (await fetch(browser.runtime.getURL(this.default_image))).text()
 
     // Replace color in SVG and convert result to data-URL
     svg = svg.replace(/#0c0c0d/g, color);
@@ -57,27 +54,26 @@ const IconUpdater = {
     const canvas = document.createElement("canvas");
     canvas.width = size;
     canvas.height = size;
+    const ctx = canvas.getContext("2d");
 
     // Render SVG to canvas and set resulting ImageData to our browserAction
     const img = new Image(size, size);
-    img.onload = function() {
-      const ctx = canvas.getContext("2d");
+    img.onload = async function() {
       ctx.drawImage(img, 0, 0, size, size);
       const imageData = ctx.getImageData(0, 0, size, size);
       const data = {imageData: {}};
       data.imageData[size] = imageData;
-      browser.runtime.getBrowserInfo().then((info) => {
-        // details.windowId came with Firefox 62
-        // Adding it for older versions triggers an exception
-        if (parseInt(info.version) >= 62)
-          data.windowId = updateInfo.windowId;
-        browser.browserAction.setIcon(data);
-      });
+      // details.windowId came with Firefox 62
+      // Adding it for older versions triggers an exception
+      const info = await browser.runtime.getBrowserInfo();
+      if (parseInt(info.version) >= 62)
+        data.windowId = updateInfo.windowId;
+      await browser.browserAction.setIcon(data);
     }
     img.src = svgdataurl;
   },
 
-  Init: function(aDefaultImage) {
+  Init: async function(aDefaultImage) {
     if (browser.browserAction.setIcon === undefined) // If on Android
       return;
 
@@ -87,12 +83,10 @@ const IconUpdater = {
     browser.theme.onUpdated.addListener(this.ThemeUpdated.bind(this));
 
     // Initial loading: Every window could have its own theme
-    browser.windows.getAll().then((aWindows) => {
-      aWindows.forEach((aWindow) => {
-        browser.theme.getCurrent(aWindow.id).then((themeInfo) => {
-          this.ThemeUpdated({theme: themeInfo, windowId: aWindow.id});
-        });
-      });
-    });
+    const windows = await browser.windows.getAll();
+    for (const window of windows) {
+      const themeInfo = await browser.theme.getCurrent(window.id);
+      this.ThemeUpdated({theme: themeInfo, windowId: window.id});
+    }
   }
 };
