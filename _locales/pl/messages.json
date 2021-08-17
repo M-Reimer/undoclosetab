@@ -10,14 +10,29 @@
         "hash": "feb53325fd2a69298e4ac7433611fba1"
     },
     "more_entries_menu": {
-        "message": "Więcej",
+        "message": "Więcej zamkniętych stron",
         "description": "Last menu on Context menus of the browser action, as the top-level menu cannot exceed 6 items.",
-        "hash": "2faee14e6cb6b941b08d3a1eea098a8e"
+        "hash": "7bebf8ccc20f23b1faccdca5629a9d1a"
+    },
+    "clearlist_menuitem": {
+        "message": "Wyczyść listę",
+        "description": "Label for the menuitem for clearing the list of closed tabs",
+        "hash": "17927f5c3d0eab2022d1a91b106b48c0"
     },
     "page_contextmenu_submenu": {
         "message": "Przywróć zamkniętą kartę",
         "description": "The label used for the submenu added to the page/tab context menu (the one with the recently closed tab list). Please use the same string as in 'extensionName' whenever possible!",
         "hash": "64c3b70943ee77066e4d90550f73fe60"
+    },
+    "general_headline": {
+        "message": "Ogólne",
+        "description": "Headline for general options in options page",
+        "hash": "e90d858c95232c95e34b4bb2f25b69e4"
+    },
+    "restoreGroup_label": {
+        "message": "Przywróć zamknięte karty, jeżeli czas pomiędzy ich zamknięciem wynosi mniej, niż",
+        "description": "Label on checkbox for restoring tab groups based on time between tab closes",
+        "hash": "64609a33b69413c28f0b2979b99452d8"
     },
     "contextmenus_headline": {
         "message": "Menu podręczne",
@@ -41,6 +56,11 @@
         "message": "Pokazuj tylko te karty, które zostały zamknięte w bieżącym oknie",
         "description": "Label on checkbox for filtering menu items to current window",
         "hash": "ff97d8d8b39692e9b010ebe354777c89"
+    },
+    "menuitem_clearlist_label": {
+        "message": "Pokaż w menu element służący wyczyszczeniu listy ostatnio zamkniętych kart",
+        "description": "Label on checkbox for enabling the 'Clear List' menu item",
+        "hash": "428404052dc9c9462e0ec760aa91912a"
     },
     "menus_headline": {
         "message": "Dodatkowe menu",
