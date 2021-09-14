@@ -70,17 +70,11 @@ async function OnMenuShown() {
   const prefs = await Storage.get();
   const tabs = await TabHandling.GetLastClosedTabs(prefs.showNumber, prefs.onlyCurrent);
 
-  // This is how Mozilla describes how to prevent race conditions. The above two
-  // are our "asynchronous" calls.
-  if (menuInstanceId !== lastMenuInstanceId) {
-    return; // Menu was closed and shown again.
-  }
-
   // How many items are allowed on the top level?
   const max_allowed = browser.menus.ACTION_MENU_TOP_LEVEL_LIMIT - (prefs.showClearList ? 1 : 0);
 
   // Start with a completely empty menu
-  browser.menus.removeAll();
+  await browser.menus.removeAll();
 
   // This block is for creating the "page" or "tab" context menus.
   // They are only drawn if at least one tab can be restored.
@@ -173,7 +167,11 @@ async function OnMenuShown() {
     });
   }
 
-  browser.menus.refresh();
+  // This is how Mozilla describes how to prevent race conditions.
+  if (menuInstanceId !== lastMenuInstanceId) {
+    return; // Menu was closed and shown again.
+  }
+  await browser.menus.refresh();
 }
 
 // Fired if one of our context menu entries is clicked.
@@ -208,6 +206,10 @@ if (browser.menus !== undefined &&
 
   browser.menus.onShown.addListener(OnMenuShown);
   browser.menus.onClicked.addListener(ContextMenuClicked);
+
+  browser.menus.onHidden.addListener(function() {
+    lastMenuInstanceId = 0;
+  });
 }
 
 browser.browserAction.onClicked.addListener(ToolbarButtonClicked);
