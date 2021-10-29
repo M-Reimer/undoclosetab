@@ -28,7 +28,7 @@ const Storage = {
       const txt = await (await fetch(url)).text();
       // VERY basic comment support! Only "//" and only at the start of lines!
       const json = txt.replace(/^\s*\/\/.*$/mg, "");
-      this._defaults = JSON.parse(txt);
+      this._defaults = JSON.parse(json);
     }
 
     const prefs = await browser.storage.local.get();
