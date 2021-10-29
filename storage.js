@@ -1,6 +1,6 @@
 /*
-    Firefox addon "Save Screenshot"
-    Copyright (C) 2020  Manuel Reimer <manuel.reimer@gmx.de>
+    WebExtension utils for use in my Firefox Add-ons
+    Copyright (C) 2021  Manuel Reimer <manuel.reimer@gmx.de>
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -20,19 +20,17 @@
 
 // Central place for storage handling and preference defaults
 const Storage = {
-  _defaults: {
-    "show_contextmenu": true,
-    "savemethod": "open",
-    "formats": ["png", "jpg", "copy"],
-    "regions": ["full", "viewport", "selection"],
-    "filenameformat": "",
-    "jpegquality": 80,
-    "savenotification": true,
-    "image_comment": true,
-    "copynotification": false
-  },
+  _defaults: false,
 
   get: async function() {
+    if (!this._defaults) {
+      const url = browser.runtime.getURL('/default-preferences.json');
+      const txt = await (await fetch(url)).text();
+      // VERY basic comment support! Only "//" and only at the start of lines!
+      const json = txt.replace(/^\s*\/\/.*$/mg, "");
+      this._defaults = JSON.parse(txt);
+    }
+
     const prefs = await browser.storage.local.get();
     for (let name in this._defaults) {
       if (prefs[name] === undefined)
