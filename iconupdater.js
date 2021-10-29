@@ -1,5 +1,5 @@
 /*
-    Firefox addon "Undo Close Tab"
+    WebExtension utils for use in my Firefox Add-ons
     Copyright (C) 2021  Manuel Reimer <manuel.reimer@gmx.de>
 
     This program is free software: you can redistribute it and/or modify
