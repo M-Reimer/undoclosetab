@@ -27,7 +27,11 @@ const Storage = {
       const url = browser.runtime.getURL('/default-preferences.json');
       const txt = await (await fetch(url)).text();
       // VERY basic comment support! Only "//" and only at the start of lines!
-      const json = txt.replace(/^\s*\/\/.*$/mg, "");
+      let json = txt.replace(/^\s*\/\/.*$/mg, "");
+      // Allow localized strings
+      json = json.replace(/__MSG_([A-Za-z0-9_]+?)__/g, (match, msgName) => {
+        return browser.i18n.getMessage(msgName);
+      });
       this._defaults = JSON.parse(json);
     }
 
