@@ -21,7 +21,7 @@
   "background": {
     "scripts": [
       "iconupdater.js",
-      "storage.js",
+      "utils/storage.js",
       "tabhandling.js",
       "background.js"
     ]

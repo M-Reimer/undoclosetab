@@ -4,7 +4,8 @@
 #
 
 FILES = manifest.json \
-        storage.js \
+        default-preferences.json \
+        utils/storage.js \
         tabhandling.js \
         background.js \
         iconupdater.js \
