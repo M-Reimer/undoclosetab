@@ -1,0 +1,16 @@
+:root {
+  --page-bg-color: #fff;
+  --page-fg-color: #15141a;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --page-bg-color: #23222b;
+    --page-fg-color: #fbfbfe;
+  }
+}
+
+body {
+  background-color: var(--page-bg-color);
+  color: var(--page-fg-color);
+}
