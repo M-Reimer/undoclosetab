@@ -8,7 +8,7 @@ FILES = manifest.json \
         utils/storage.js \
         tabhandling.js \
         background.js \
-        iconupdater.js \
+        utils/iconupdater.js \
         options.html \
         options.js \
         $(wildcard _locales/*/messages.json) \

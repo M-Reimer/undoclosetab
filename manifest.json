@@ -20,7 +20,7 @@
 
   "background": {
     "scripts": [
-      "iconupdater.js",
+      "utils/iconupdater.js",
       "utils/storage.js",
       "tabhandling.js",
       "background.js"
