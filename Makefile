@@ -20,6 +20,8 @@ VERSION = $(shell sed -n  's/^  "version": "\([^"]\+\).*/\1/p' manifest.json)
 
 ANDROIDDEVICE = $(shell adb devices | cut -s -d$$'\t' -f1 | head -n1)
 
+WEBEXT_UTILS_REPO = git@github.com:M-Reimer/webext-utils.git
+
 trunk: $(ADDON)-trunk.xpi
 
 release: $(ADDON)-$(VERSION).xpi
@@ -45,3 +47,13 @@ arun:
 	else \
 	  web-ext run --target=firefox-android --android-device="$(ANDROIDDEVICE)"; \
 	fi
+
+# Subtree stuff for webext-utils
+# Note to myself. Initial setup of subtree:
+# git subtree add --prefix utils git@github.com:M-Reimer/webext-utils.git master
+
+subtree-pull:
+	git subtree pull --prefix utils "$(WEBEXT_UTILS_REPO)" master
+
+subtree-push:
+	git subtree push --prefix utils "$(WEBEXT_UTILS_REPO)" master
