@@ -61,20 +61,6 @@ function init() {
     return;
   }
 
-  [
-    "general_headline",
-    "restoreGroup_label",
-    "contextmenus_headline",
-    "menuitem_number_label",
-    "onlycurrent_label",
-    "menus_headline",
-    "menu_tab_label",
-    "menu_page_label",
-    "menuitem_page_label",
-    "menuitem_clearlist_label"
-  ].forEach((id) => {
-    document.querySelector("#" + id).textContent = browser.i18n.getMessage(id);
-  });
   numberShowNumber.title = browser.i18n.getMessage("numberText_title", browser.sessions.MAX_SESSION_RESULTS);
 
   numberShowNumber.max = browser.sessions.MAX_SESSION_RESULTS;

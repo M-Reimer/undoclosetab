@@ -6,35 +6,36 @@
   </head>
   <body>
     <form>
-      <h1 id="general_headline">General</h1>
+      <h1 data-i18n-id="general_headline">General</h1>
       <input type="checkbox" id="restoreGroup_checkbox" style="vertical-align: center"/>
       <span style="max-width: 90%; display: inline-block">
-      <label for="restoreGroup_checkbox" id="restoreGroup_label">Restore tabs as group if the time between their closings is below</label>
+      <label for="restoreGroup_checkbox" data-i18n-id="restoreGroup_label">Restore tabs as group if the time between their closings is below</label>
       <input type="number" id="groupTime_inputbox" min="1" max="2000" value="200" style="width: 5em"/>
-      <label for="groupTime_inputbox" id="groupTime_unit">ms</label>
+      <label for="groupTime_inputbox">ms</label>
       </span>
 
-      <h1 id="contextmenus_headline">Context menus</h1>
-      <label for="showNumber_inputbox" id="menuitem_number_label">Number of shown on closed tabs menu:</label>
+      <h1 data-i18n-id="contextmenus_headline">Context menus</h1>
+      <label for="showNumber_inputbox" data-i18n-id="menuitem_number_label">Number of shown on closed tabs menu:</label>
       <input type="number" id="showNumber_inputbox" min="1" style="width: 5em"/>
       <br/>
       <input type="checkbox" id="onlyCurrent_checkbox"/>
-      <label for="onlyCurrent_checkbox" id="onlycurrent_label">Only list tabs that were closed in the current window</label>
+      <label for="onlyCurrent_checkbox" data-i18n-id="onlycurrent_label">Only list tabs that were closed in the current window</label>
       <br/>
       <input type="checkbox" id="showClearList_checkbox"/>
-      <label for="showClearList_checkbox" id="menuitem_clearlist_label">Show menu item for clearing the last closed tab list</label>
+      <label for="showClearList_checkbox" data-i18n-id="menuitem_clearlist_label">Show menu item for clearing the last closed tab list</label>
 
-      <h2 id="menus_headline">Additional menus</h2>
+      <h2 data-i18n-id="menus_headline">Additional menus</h2>
       <input type="checkbox" id="showTabMenu_checkbox"/>
-      <label for="showTabMenu_checkbox" id="menu_tab_label">Submenu in tab bar context menu</label>
+      <label for="showTabMenu_checkbox" data-i18n-id="menu_tab_label">Submenu in tab bar context menu</label>
       <br/>
       <input type="checkbox" id="showPageMenu_checkbox"/>
-      <label for="showPageMenu_checkbox" id="menu_page_label">Submenu in page context menu</label>
+      <label for="showPageMenu_checkbox" data-i18n-id="menu_page_label">Submenu in page context menu</label>
       <br/>
       <input type="checkbox" id="showPageMenuitem_checkbox"/>
-      <label for="showPageMenuitem_checkbox" id="menuitem_page_label">Menuitem in page context menu</label>
+      <label for="showPageMenuitem_checkbox" data-i18n-id="menuitem_page_label">Menuitem in page context menu</label>
     </form>
     <script src="utils/storage.js"></script>
+    <script src="utils/html-i18n.js"></script>
     <script src="options.js"></script>
   </body>
 </html>
