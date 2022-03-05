@@ -4,14 +4,14 @@
 #
 
 FILES = manifest.json \
-        default-preferences.json \
-        utils/storage.js \
-        tabhandling.js \
         background.js \
-        utils/iconupdater.js \
+        tabhandling.js \
+        default-preferences.json \
         options.html \
         options.js \
         options.css \
+        utils/storage.js \
+        utils/iconupdater.js \
         utils/html-i18n.js \
         $(wildcard _locales/*/messages.json) \
         $(wildcard icons/*.svg)
