@@ -74,7 +74,8 @@ const IconUpdater = {
   },
 
   Init: async function(aDefaultImage) {
-    if (browser.browserAction.setIcon === undefined) // If on Android
+    if (browser.browserAction.setIcon === undefined ||
+        browser.windows === undefined) // If on Android
       return;
 
     this.default_image = aDefaultImage;
