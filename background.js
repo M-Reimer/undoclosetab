@@ -214,4 +214,16 @@ if (browser.menus !== undefined &&
 
 browser.browserAction.onClicked.addListener(ToolbarButtonClicked);
 
+// Listens for shortcuts referenced in manfest.json/commands and
+// fires appropriate function based on command string received
+browser.commands.onCommand.addListener(async (command) => {
+  switch (command) {
+    case "activate-undo":
+      await ToolbarButtonClicked();
+      break;
+    default:
+      console.log("No action defined for supported shortcut");
+  }
+});
+
 IconUpdater.Init("icons/undoclosetab.svg");

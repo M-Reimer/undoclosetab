@@ -51,5 +51,14 @@
     "theme"
   ],
 
-  "default_locale": "en"
+  "default_locale": "en",
+
+  "commands": {
+    "activate-undo": {
+      "suggested_key": {
+        "default": "Ctrl+Alt+Z"
+      },
+      "description": "Activate the Undo Command"
+    }
+  }
 }
