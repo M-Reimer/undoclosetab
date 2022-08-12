@@ -43,6 +43,11 @@
     "open_in_tab": false
   },
 
+  "commands": {
+    "_execute_browser_action": {
+    }
+  },
+
   "permissions": [
     "menus",
     "tabs",
