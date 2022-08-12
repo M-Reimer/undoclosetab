@@ -68,7 +68,13 @@ const Storage = {
   // handle my preferences could change with any Add-on release, and it is
   // *your job* to keep track of this if you decide to use managed preferences!
   _apply_managed_defaults: async function(defaults) {
-    const mgdefaults = await browser.storage.managed.get();
+    let mgdefaults = {};
+    try { // https://bugzil.la/1784446
+      mgdefaults = await browser.storage.managed.get();
+    }
+    catch(e) {
+      return;
+    }
 
     // Run over all managed preference values that target an existing default
     for (const [name, mgvalue] of Object.entries(mgdefaults)) {
