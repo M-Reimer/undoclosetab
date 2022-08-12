@@ -69,10 +69,16 @@ const Storage = {
   // *your job* to keep track of this if you decide to use managed preferences!
   _apply_managed_defaults: async function(defaults) {
     let mgdefaults = {};
-    try { // https://bugzil.la/1784446
+    // Do not allow storage.managed to make Add-ons unusable.
+    // Catch all errors that may occur. Then log and ignore them.
+    try {
       mgdefaults = await browser.storage.managed.get();
     }
     catch(e) {
+      // HACK: https://bugzil.la/1784446
+      //       Only log message if it's not caused by above bug.
+      if (e.message != "Managed storage manifest not found")
+        console.log(e);
       return;
     }
 
