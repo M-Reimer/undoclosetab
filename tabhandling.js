@@ -43,6 +43,9 @@ const TabHandling = {
       tabs = tabs.filter((tab) => { return tab.windowId === undefined || tab.windowId === currentWindow.id});
     }
 
+    // HACK! See https://github.com/M-Reimer/undoclosetab/issues/117#issuecomment-1527397147
+    tabs = tabs.filter((tab) => { return tab.title !== undefined });
+
     // If requested, limit the return list to the given amount of entries
     if (aMaxResults && tabs.length > aMaxResults)
       tabs = tabs.splice(0, aMaxResults);
