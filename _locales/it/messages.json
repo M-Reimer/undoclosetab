@@ -1,0 +1,87 @@
+{
+  "extensionName": {
+    "message": "Undo Close Tab",
+    "description": "Name of the extension. Also used for the toolbar button tooltip and for the page/tab context menu item for direct tab restore.",
+    "hash": "64c3b70943ee77066e4d90550f73fe60"
+  },
+  "extensionDescription": {
+    "message": "Riapri l'ultima scheda chiusa",
+    "description": "Description of the extension.",
+    "hash": "feb53325fd2a69298e4ac7433611fba1"
+  },
+  "more_entries_menu": {
+    "message": "Più voci",
+    "description": "Last menu on Context menus of the browser action, as the top-level menu cannot exceed 6 items.",
+    "hash": "7bebf8ccc20f23b1faccdca5629a9d1a"
+  },
+  "clearlist_menuitem": {
+    "message": "Pulisci lista",
+    "description": "Label for the menuitem for clearing the list of closed tabs",
+    "hash": "17927f5c3d0eab2022d1a91b106b48c0"
+  },
+  "page_contextmenu_submenu": {
+    "message": "Annulla Chiudi scheda",
+    "description": "The label used for the submenu added to the page/tab context menu (the one with the recently closed tab list). Please use the same string as in 'extensionName' whenever possible!",
+    "hash": "64c3b70943ee77066e4d90550f73fe60"
+  },
+  "general_headline": {
+    "message": "Generale",
+    "description": "Headline for general options in options page",
+    "hash": "e90d858c95232c95e34b4bb2f25b69e4"
+  },
+  "restoreGroup_label": {
+    "message": "Ripristina le schede come gruppo se il tempo tra le chiusure è inferiore a",
+    "description": "Label on checkbox for restoring tab groups based on time between tab closes",
+    "hash": "64609a33b69413c28f0b2979b99452d8"
+  },
+  "contextmenus_headline": {
+    "message": "Menù contestuali",
+    "description": "Headline for context menu options in options page",
+    "hash": "c865d765c4c6a4157de8336fad083f8e"
+  },
+  "menuitem_number_label": {
+    "message": "Numero di elementi nel menù schede chiuse:",
+    "description": "Closed tabs number on context menu items.",
+    "hash": "8f71ac4eebcd5ee918321c62d55fcf19"
+  },
+  "numberText_title": {
+    "message": "Numero di schede chiuse nel menù contestuale, da 1 a $1",
+    "description": "tooltip on number input box.",
+    "placeholders": {
+      "maxResults": { "content": "$1", "example": "25" }
+    },
+    "hash": "40a445627cbea0310e6fdc25944a2096"
+  },
+  "onlycurrent_label": {
+    "message": "Mostra solo le schede chiuse nella finestra corrente",
+    "description": "Label on checkbox for filtering menu items to current window",
+    "hash": "ff97d8d8b39692e9b010ebe354777c89"
+  },
+  "menuitem_clearlist_label": {
+    "message": "Mostra la voce di menù per pulire l'ultimo elenco di schede chiuse",
+    "description": "Label on checkbox for enabling the 'Clear List' menu item",
+    "hash": "428404052dc9c9462e0ec760aa91912a"
+  },
+  "menus_headline": {
+    "message": "Menù aggiuntivi",
+    "description": "Headline for additional menu checkboxes in options page",
+    "hash": "d2d0134f4d85db563973c1ad1a0d9831"
+  },
+  "menu_tab_label": {
+    "message": "Sottomenù nel menù contestuale della barra delle schede",
+    "description": "Label on checkbox to enable submenu in tab bar context menu",
+    "hash": "0031523137f27c650862f888395e599d"
+  },
+  "menu_page_label": {
+    "message": "Sottomenù nel menù contestuale della pagina",
+    "description": "Label on checkbox to enable submenu in page context menu",
+    "hash": "03b779fff222918a5f544314ffd07f0e"
+  },
+  "menuitem_page_label": {
+    "message": "Voce di menù nel menù contestuale della pagina",
+    "description": "Label on checkbox to enable menuitem in page context menu",
+    "hash": "520d2256897061311967e99b19d75764"
+  },
+
+  "__WET_LOCALE__": { "message": "it" }
+}
