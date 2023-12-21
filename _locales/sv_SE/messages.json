@@ -13,6 +13,11 @@
     "description": "Last menu on Context menus of the browser action, as the top-level menu cannot exceed 6 items."
   },
 
+  "clearlist_menuitem": {
+    "message": "Rensa lista",
+    "description": "Label for the menuitem for clearing the list of closed tabs"
+  },
+
   "page_contextmenu_submenu": {
     "message": "Ångra flikstängning",
     "description": "The label used for the submenu added to the page/tab context menu (the one with the recently closed tab list). Please use the same string as in 'extensionName' whenever possible!"
@@ -40,6 +45,10 @@
   "onlycurrent_label": {
     "message": "Visa endast flikar som stängdes i det aktuella fönstret",
     "description": "Label on checkbox for filtering menu items to current window"
+  },
+  "menuitem_clearlist_label": {
+    "message": "Visa menyalternativ för att rensa den senast stängda fliklistan",
+    "description": "Label on checkbox for enabling the 'Clear List' menu item"
   },
   "menus_headline": {
     "message": "Ytterligare menyer",
