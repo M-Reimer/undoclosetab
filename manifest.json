@@ -30,6 +30,7 @@
   "browser_action": {
     "browser_style": true,
     "default_icon": "icons/undoclosetab.svg",
+    "default_area": "navbar",
     "theme_icons": [{
       "dark": "icons/undoclosetab.svg",
       "light": "icons/undoclosetab-light.svg",
