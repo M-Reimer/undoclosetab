@@ -214,4 +214,5 @@ if (browser.menus !== undefined &&
 
 browser.browserAction.onClicked.addListener(ToolbarButtonClicked);
 
-IconUpdater.Init("icons/undoclosetab.svg");
+// This is broken by https://bugzil.la/1542044
+//IconUpdater.Init("icons/undoclosetab.svg");
